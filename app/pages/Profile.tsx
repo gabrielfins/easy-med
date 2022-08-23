@@ -1,12 +1,17 @@
-import { View, TextInput, StyleSheet, Pressable, Dimensions } from 'react-native';
+import { View, TextInput, StyleSheet, Pressable, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
 import { Avatar } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import { colors } from '../styles/colors';
 import AppText from '../components/AppText';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
 
-export default function Home() {
+
+export default function Profile() {
+    const navigation = useNavigation();
+
     return (
+        <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.profile}>
             <View style={styles.header}>
                 <StatusBar backgroundColor={colors.white} />
@@ -28,7 +33,7 @@ export default function Home() {
                         </View>
                     </View>
                 </Pressable>
-                <Pressable>
+                <Pressable onPress={() => navigation.navigate('Histórico')}>
                     <View style={styles.content}>
                         <MaterialIcons name="folder-outline" size={30} />
                         <View style={styles.name}>
@@ -74,6 +79,8 @@ export default function Home() {
                 </Pressable>
             </View>              
         </View>
+    </ScrollView>
+        
     );
 }
 
