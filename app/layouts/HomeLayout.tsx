@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { BottomNavigation } from 'react-native-paper';
 import Home from '../pages/Home';
+import Profile from '../pages/Profile';
 
 export default function HomeLayout() {
   const [index, setIndex] = useState(0);
@@ -15,7 +16,7 @@ export default function HomeLayout() {
     home: Home,
     appointments: Home,
     results: Home,
-    profile: Home
+    profile: Profile
   });
 
   return (

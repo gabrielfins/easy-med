@@ -11,7 +11,8 @@ const theme = {
     primary: '#3C84FB',
     secondary: '#D1E2FF',
     tertiary: '#E7F0FF',
-    error: '#FE4D4D'
+    error: '#FE4D4D',
+    white: '#FFFFFFF'
   }
 }
 
@@ -38,6 +39,6 @@ export default function App() {
 const styles = StyleSheet.create({
   appContainer:  {
     flex: 1,
-    paddingTop: Platform.OS === 'android' || Platform.OS === 'ios' ? 20 : 0
+    paddingTop: Platform.OS === 'android' || Platform.OS === 'ios' ? 30 : 0
   }
 });
