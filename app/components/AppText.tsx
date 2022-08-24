@@ -1,12 +1,12 @@
-import { StyleSheet, Text, TextProps } from 'react-native';
+import { TextProps } from 'react-native';
 import styled from 'styled-components/native';
 
 interface AppTextProps extends TextProps {
   size?: number;
-  weight?: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+  weight?: 'normal' | 'bold';
 }
 
-export default function AppText({size=14, weight=400, ...props}: AppTextProps) {
+export default function AppText({size=14, weight='normal', ...props}: AppTextProps) {
   const AppText = styled.Text`
     font-family: 'OpenSans';
     font-size: ${size}px;

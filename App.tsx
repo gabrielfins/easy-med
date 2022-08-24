@@ -2,16 +2,7 @@ import { Platform, StyleSheet, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { Provider as PaperProvider, MD3LightTheme as defaultTheme } from 'react-native-paper';
-import 'react-native-gesture-handler';
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-
-import { AppRoutes } from './routes';
-
-import HomeLayout from './app/layouts/HomeLayout';
-
-
+import Router from './Router';
 
 const theme = {
   ...defaultTheme,
@@ -39,9 +30,8 @@ export default function App() {
     <PaperProvider theme={theme}>
       <View style={styles.appContainer}>
         <StatusBar backgroundColor="white" />
-        <AppRoutes/>
+        <Router />
       </View>
-      
     </PaperProvider>
   );
 }
@@ -49,6 +39,6 @@ export default function App() {
 const styles = StyleSheet.create({
   appContainer:  {
     flex: 1,
-    paddingTop: Platform.OS === 'android' || Platform.OS === 'ios' ? 30 : 0
+    paddingTop: Platform.OS === 'android' || Platform.OS === 'ios' ? 24 : 0
   }
 });

@@ -1,54 +1,36 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { ScrollView } from 'react-native'
-import { useNavigation } from '@react-navigation/native';
-
-import Folder from '../../assets/images/folder.png';
-
-
+import { View, StyleSheet, Image } from 'react-native';
+import AppText from '../components/AppText';
+import folderImage from '../../assets/images/folder.png';
+import ButtonLink from '../components/ButtonLink';
 
 export default function History() {
-  const navigation = useNavigation();
-    return (
-    <ScrollView
-    showsVerticalScrollIndicator={false}
-    style={{backgroundColor: 'white'}}
-    >
-    <View style ={styles.view}>
-      <img style={styles.folder} 
-      src={Folder}
-      alt="Histórico"
-      />
-      <Text style={styles.text1}>Histórico Vazio</Text>
-      <Text style={styles.text2}>Nenhuma consulta realizada até o momento.</Text>
+  return (
+    <View>
+      <View style ={styles.view}>
+        <Image style={styles.folder} source={folderImage} />
+        <AppText size={28} weight="bold">Histórico Vazio</AppText>
+        <AppText>Nenhuma consulta realizada até o momento.</AppText>
+      </View>
+      <View style={styles.voltar}>
+        <ButtonLink type="tonal" to="/profile">Voltar Para o Perfil</ButtonLink>
+      </View>
     </View>
-    <View style={styles.voltar}>
-      <TouchableOpacity style={styles.text3} onPress={() => navigation.navigate('HomeLayout')}>
-        Voltar Para o Perfil
-      </TouchableOpacity>
-    </View>
-    </ScrollView>
   ); 
 }
 
 const styles = StyleSheet.create({
-  view:{
+  view: {
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 50,
-    
   },
-
-  folder:{
+  folder: {
     flex: 1,
-    width: '65%',
-    height: '65%',
+    width: 250,
     resizeMode: 'contain',
     paddingBottom: 70,
-
   },
-
-  text1:{
+  text1: {
     fontFamily: 'OpenSans',
     fontSize: 26,
     fontWeight: '900',
@@ -59,7 +41,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     paddingBottom: 5,
   },
-  text3:{
+  text3: {
     fontFamily: 'OpenSans',
     fontSize: 14,
     fontWeight: 'bold',
@@ -69,9 +51,7 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     borderRadius: 3,
   },
-
-  voltar:{
-    
+  voltar: {
     color: '#3C84FB',
     alignItems: 'center',
     justifyContent: 'center',
