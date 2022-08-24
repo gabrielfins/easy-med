@@ -2,7 +2,7 @@ import { Platform, StyleSheet, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { Provider as PaperProvider, MD3LightTheme as defaultTheme } from 'react-native-paper';
-import HomeLayout from './app/layouts/HomeLayout';
+import Router from './Router';
 
 const theme = {
   ...defaultTheme,
@@ -11,7 +11,8 @@ const theme = {
     primary: '#3C84FB',
     secondary: '#D1E2FF',
     tertiary: '#E7F0FF',
-    error: '#FE4D4D'
+    error: '#FE4D4D',
+    white: '#FFFFFFF'
   }
 }
 
@@ -29,7 +30,7 @@ export default function App() {
     <PaperProvider theme={theme}>
       <View style={styles.appContainer}>
         <StatusBar backgroundColor="white" />
-        <HomeLayout />
+        <Router />
       </View>
     </PaperProvider>
   );
@@ -38,6 +39,6 @@ export default function App() {
 const styles = StyleSheet.create({
   appContainer:  {
     flex: 1,
-    paddingTop: Platform.OS === 'android' || Platform.OS === 'ios' ? 20 : 0
+    paddingTop: Platform.OS === 'android' || Platform.OS === 'ios' ? 24 : 0
   }
 });

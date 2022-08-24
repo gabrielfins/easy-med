@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { colors } from '../styles/colors';
 import AppText from '../components/AppText';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { Link } from 'react-router-native';
 
 export default function Home() {
   return (
@@ -11,8 +12,10 @@ export default function Home() {
       <View style={styles.header}>
         <StatusBar backgroundColor={colors.tertiary} />
         <View style={styles.titleContainer}>
-          <AppText size={24} weight={700}>Olá, Gabriel</AppText>
-          <Avatar.Icon icon="account" size={48} />
+          <AppText size={24} weight="bold">Olá, Gabriel</AppText>
+          <Link to="/profile" underlayColor="transparent">
+            <Avatar.Icon icon="account" size={48} />
+          </Link>
         </View>
         <View style={styles.searchContainer}>
           <AppText>O que você precisa?</AppText>
@@ -27,17 +30,17 @@ export default function Home() {
         <View style={styles.quickAccessButtons}>
           <Pressable style={styles.quickAccessButton}>
             <MaterialIcons name="inbox-full" size={28} color={colors.primary} />
-            <AppText weight={700} style={{color: colors.primary}}>Receitas</AppText>
+            <AppText weight="bold" style={{color: colors.primary}}>Receitas</AppText>
           </Pressable>
           <View style={styles.separator} />
           <Pressable style={styles.quickAccessButton}>
             <MaterialIcons name="chart-line" size={28} color={colors.primary} />
-            <AppText weight={700} style={{color: colors.primary}}>Exames</AppText>
+            <AppText weight="bold" style={{color: colors.primary}}>Exames</AppText>
           </Pressable>
           <View style={styles.separator} />
           <Pressable style={styles.quickAccessButton}>
             <MaterialIcons name="pill" size={28} color={colors.primary} />
-            <AppText weight={700} style={{color: colors.primary}}>Remédios</AppText>
+            <AppText weight="bold" style={{color: colors.primary}}>Remédios</AppText>
           </Pressable>
         </View>
       </View>

@@ -1,28 +1,20 @@
-import { useState } from 'react';
-import { BottomNavigation } from 'react-native-paper';
-import Home from '../pages/Home';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { Outlet } from 'react-router-native';
+import Navbar from '../components/Navbar';
 
 export default function HomeLayout() {
-  const [index, setIndex] = useState(0);
-  const routes = [
-    { key: 'home', title: 'Início', focusedIcon: 'home', unfocusedIcon: 'home-outline' },
-    { key: 'appointments', title: 'Agendar', focusedIcon: 'calendar', unfocusedIcon: 'calendar-outline' },
-    { key: 'results', title: 'Resultados', focusedIcon: 'ballot', unfocusedIcon: 'ballot-outline' },
-    { key: 'profile', title: 'Perfil', focusedIcon: 'account', unfocusedIcon: 'account-outline' }
-  ];
-
-  const renderScene = BottomNavigation.SceneMap({
-    home: Home,
-    appointments: Home,
-    results: Home,
-    profile: Home
-  });
-
   return (
-    <BottomNavigation
-      navigationState={{index, routes}}
-      onIndexChange={setIndex}
-      renderScene={renderScene}
-    />
+    <View style={styles.homeLayout}>
+      <ScrollView>
+        <Outlet />
+      </ScrollView>
+      <Navbar />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  homeLayout: {
+    flex: 1
+  }
+});
