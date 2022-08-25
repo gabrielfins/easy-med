@@ -2,15 +2,30 @@ import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from 'react-nativ
 import AppText from './AppText';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { colors } from '../styles/colors';
+import { useNavigate } from 'react-router-native';
 
-interface ButtonProps extends TouchableOpacityProps {
+interface DefaultButtonProps extends TouchableOpacityProps {
   type?: 'flat' | 'tonal';
   size?: 'regular' | 'large';
   icon?: keyof typeof MaterialIcons.glyphMap;
   children: string;
 }
 
-export default function Button({type='flat', size='regular', icon, children, ...props}: ButtonProps) {
+type ButtonProps = DefaultButtonProps & (
+  {
+    link: true;
+    to: string;
+    onPress?: never
+  } | {
+    link?: never;
+    to?: never;
+    onPress?: Function
+  }
+);
+
+export default function Button({type='flat', size='regular', link, to='', icon, children, onPress, ...props}: ButtonProps) {
+  const navigate = useNavigate();
+
   return (
     <TouchableOpacity
       style={[
@@ -19,6 +34,7 @@ export default function Button({type='flat', size='regular', icon, children, ...
         size === 'large' ? styles.buttonLarge : null
       ]}
       activeOpacity={0.7}
+      onPress={link ? () => navigate(to) : onPress}
       {...props}
     >
       <>

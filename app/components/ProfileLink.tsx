@@ -12,7 +12,7 @@ interface ProfileLinkProps extends LinkProps {
 
 export default function ProfileLink({title, description, icon, ...props}: ProfileLinkProps) {
   return (
-    <Link style={styles.profileButton} {...props} underlayColor={colors.tertiary}>
+    <Link style={styles.profileButton} underlayColor={colors.tertiary} {...props}>
       <>
         {icon ? <MaterialIcons name={icon} size={32} /> : null}
         <View style={styles.textContent}>

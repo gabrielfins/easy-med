@@ -1,7 +1,7 @@
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, ScrollView } from 'react-native';
 import AppText from '../components/AppText';
 import folderImage from '../../assets/images/folder.png';
-import ButtonLink from '../components/ButtonLink';
+import Button from '../components/Button';
 
 export default function History() {
   return (
@@ -12,10 +12,10 @@ export default function History() {
         <AppText>Nenhuma consulta realizada até o momento.</AppText>
       </View>
       <View style={styles.voltar}>
-        <ButtonLink type="tonal" to="/profile">Voltar Para o Perfil</ButtonLink>
+        <Button type="tonal" link to="/profile">Voltar Para o Perfil</Button>
       </View>
     </View>
-  ); 
+  );
 }
 
 const styles = StyleSheet.create({

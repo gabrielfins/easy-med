@@ -1,9 +1,9 @@
 import { View, StyleSheet, Image } from 'react-native';
 import AppText from '../components/AppText';
+import Button from '../components/Button';
 import calenderImage from '../../assets/images/calender-dynamic-gradient.png';
-import ButtonLink from '../components/ButtonLink';
 
-export default function Home() {
+export default function Appointments() {
   return (
     <View style={styles.profile}>
       <View style ={styles.view}>
@@ -12,7 +12,7 @@ export default function Home() {
         <AppText>Você não possui nenhum agendamento marcado.</AppText>
       </View>
       <View style={styles.agendamento}>
-        <ButtonLink type="tonal" to="/agendamento">Faça um Agendamento</ButtonLink>
+        <Button type="tonal" link to="/">Faça um Agendamento</Button>
       </View>
     </View>
   );
@@ -61,5 +61,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     margin: 'auto',
     marginTop: 25,
-  },
+  }
 });

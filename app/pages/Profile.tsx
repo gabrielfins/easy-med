@@ -23,7 +23,7 @@ export default function Home() {
         <ProfileLink to="/history" title="Histórico" description="Consultas realizadas" icon="folder-outline" />
         <ProfileLink to="/profile" title="Configurações" description="Privacidade, segurança e mais" icon="cog-outline" />
         <ProfileLink to="/profile" title="Dê sua opinião" description="Compartilhe sua experiência" icon="text-box-outline" />
-        <ProfileLink to="/profile" title="Ajuda" description="Ajuda, fale conosco, etc." icon="account-question-outline" />
+        <ProfileLink to="/profile" title="Ajuda" description="Ajuda, fale conosco, e mais" icon="account-question-outline" />
         <ProfileLink to="/profile" title="Sair" icon="exit-to-app" />
       </View>
     </View>
