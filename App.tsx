@@ -18,8 +18,8 @@ const theme = {
 
 export default function App() {
   const [loaded] = useFonts({
-    OpenSans: require('./assets/fonts/OpenSans-VariableFont.ttf'),
-    Raleway: require('./assets/fonts/Raleway-VariableFont.ttf')
+    OpenSans: require('./assets/fonts/OpenSans-Regular.ttf'),
+    OpenSansBold: require('./assets/fonts/OpenSans-Bold.ttf')
   });
 
   if (!loaded) {

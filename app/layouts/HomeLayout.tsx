@@ -1,14 +1,12 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Outlet } from 'react-router-native';
-import Navbar from '../components/Navbar';
+import NavBar from '../components/NavBar';
 
 export default function HomeLayout() {
   return (
     <View style={styles.homeLayout}>
-      <ScrollView>
-        <Outlet />
-      </ScrollView>
-      <Navbar />
+      <Outlet />
+      <NavBar />
     </View>
   );
 }

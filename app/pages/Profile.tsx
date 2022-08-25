@@ -4,10 +4,11 @@ import { StatusBar } from 'expo-status-bar';
 import { colors } from '../styles/colors';
 import AppText from '../components/AppText';
 import ProfileLink from '../components/ProfileLink';
+import PageContainer from '../components/PageContainer';
 
 export default function Home() {
   return (
-    <View style={styles.profile}>
+    <PageContainer>
       <View style={styles.header}>
         <StatusBar backgroundColor={colors.white} />
         <View style={styles.nameBox}>
@@ -26,15 +27,11 @@ export default function Home() {
         <ProfileLink to="/profile" title="Ajuda" description="Ajuda, fale conosco, e mais" icon="account-question-outline" />
         <ProfileLink to="/profile" title="Sair" icon="exit-to-app" />
       </View>
-    </View>
+    </PageContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  profile: {
-    display: 'flex',
-    backgroundColor: 'white'
-  },
   header: {
     display: 'flex',
     padding: 20,

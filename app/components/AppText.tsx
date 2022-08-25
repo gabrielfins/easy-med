@@ -8,9 +8,8 @@ interface AppTextProps extends TextProps {
 
 export default function AppText({size=14, weight='normal', ...props}: AppTextProps) {
   const AppText = styled.Text`
-    font-family: 'OpenSans';
+    font-family: ${weight === 'normal' ? 'OpenSans' : 'OpenSansBold'};
     font-size: ${size}px;
-    font-weight: ${weight};
   `;
 
   return <AppText {...props} />;

@@ -1,7 +1,7 @@
 import { View, StyleSheet } from 'react-native';
 import NavButton from './NavButton';
 
-export default function Navbar() {
+export default function NavBar() {
   return (
     <View style={styles.navbar}>
       <NavButton to="/" icon="home-outline" activeIcon="home">Início</NavButton>

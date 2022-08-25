@@ -1,11 +1,12 @@
-import { View, StyleSheet, Image, ScrollView } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import AppText from '../components/AppText';
 import folderImage from '../../assets/images/folder.png';
 import Button from '../components/Button';
+import PageContainer from '../components/PageContainer';
 
 export default function History() {
   return (
-    <View>
+    <PageContainer title="Histórico" returnTo="/profile">
       <View style ={styles.view}>
         <Image style={styles.folder} source={folderImage} />
         <AppText size={28} weight="bold">Histórico Vazio</AppText>
@@ -14,7 +15,7 @@ export default function History() {
       <View style={styles.voltar}>
         <Button type="tonal" link to="/profile">Voltar Para o Perfil</Button>
       </View>
-    </View>
+    </PageContainer>
   );
 }
 

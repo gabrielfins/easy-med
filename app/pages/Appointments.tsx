@@ -2,10 +2,11 @@ import { View, StyleSheet, Image } from 'react-native';
 import AppText from '../components/AppText';
 import Button from '../components/Button';
 import calenderImage from '../../assets/images/calender-dynamic-gradient.png';
+import PageContainer from '../components/PageContainer';
 
 export default function Appointments() {
   return (
-    <View style={styles.profile}>
+    <PageContainer title="Agendamentos">
       <View style ={styles.view}>
         <Image style={styles.folder} source={calenderImage} />
         <AppText size={28} weight="bold">Sem Agendamentos</AppText>
@@ -14,15 +15,11 @@ export default function Appointments() {
       <View style={styles.agendamento}>
         <Button type="tonal" link to="/">Faça um Agendamento</Button>
       </View>
-    </View>
+    </PageContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  profile: {
-    display: 'flex',
-    backgroundColor: 'white'
-  },
   view: {
     alignItems: 'center',
     justifyContent: 'center',

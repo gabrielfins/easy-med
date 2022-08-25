@@ -1,8 +1,8 @@
 import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import { useNavigate } from 'react-router-native';
+import { colors } from '../styles/colors';
 import AppText from './AppText';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { colors } from '../styles/colors';
-import { useNavigate } from 'react-router-native';
 
 interface DefaultButtonProps extends TouchableOpacityProps {
   type?: 'flat' | 'tonal';
@@ -55,7 +55,7 @@ export default function Button({type='flat', size='regular', link, to='', icon, 
         >{children}</AppText>
       </>
     </TouchableOpacity>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
