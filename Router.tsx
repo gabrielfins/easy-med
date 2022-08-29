@@ -3,6 +3,7 @@ import HomeLayout from './app/layouts/HomeLayout';
 import Home from './app/pages/Home';
 import Profile from './app/pages/Profile';
 import History from './app/pages/History';
+import Notifications from './app/pages/Notifications';
 import Appointments from './app/pages/Appointments';
 
 export default function Router() {
@@ -15,6 +16,7 @@ export default function Router() {
           <Route path="results" element={<Home />} />
           <Route path="profile" element={<Profile />} />
           <Route path="history" element={<History />} />
+          <Route path="notifications" element={<Notifications />} />
         </Route>
       </Routes>
     </NativeRouter>

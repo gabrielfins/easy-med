@@ -20,7 +20,7 @@ export default function Home() {
         </View>
       </View>
       <View style={styles.blocks}>
-        <ProfileLink to="/profile" title="Notificações" description="Central de notificações" icon="bell-outline" />
+        <ProfileLink to="/notifications" title="Notificações" description="Central de notificações" icon="bell-outline" />
         <ProfileLink to="/history" title="Histórico" description="Consultas realizadas" icon="folder-outline" />
         <ProfileLink to="/profile" title="Configurações" description="Privacidade, segurança e mais" icon="cog-outline" />
         <ProfileLink to="/profile" title="Dê sua opinião" description="Compartilhe sua experiência" icon="text-box-outline" />
