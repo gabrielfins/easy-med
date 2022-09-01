@@ -8,6 +8,7 @@ interface DefaultButtonProps extends TouchableOpacityProps {
   type?: 'flat' | 'tonal';
   size?: 'regular' | 'large';
   icon?: keyof typeof MaterialIcons.glyphMap;
+  stretch?: true;
   children: string;
 }
 
@@ -23,7 +24,7 @@ type ButtonProps = DefaultButtonProps & (
   }
 );
 
-export default function Button({type='flat', size='regular', link, to='', icon, children, onPress, ...props}: ButtonProps) {
+export default function Button({type='flat', size='regular', link, to='', icon, children, onPress, stretch, ...props}: ButtonProps) {
   const navigate = useNavigate();
 
   return (
@@ -31,7 +32,8 @@ export default function Button({type='flat', size='regular', link, to='', icon, 
       style={[
         styles.button, 
         type === 'tonal' ? styles.buttonTonal : null,
-        size === 'large' ? styles.buttonLarge : null
+        size === 'large' ? styles.buttonLarge : null,
+        stretch ? styles.buttonStretch : null
       ]}
       activeOpacity={0.7}
       onPress={link ? () => navigate(to) : onPress}
@@ -83,6 +85,9 @@ const styles = StyleSheet.create({
   },
   buttonTextTonal: {
     color: colors.primary
+  },
+  buttonStretch: {
+    width: '100%'
   },
   withMargin: {
     marginLeft: 8

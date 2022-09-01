@@ -1,6 +1,5 @@
 import { View, TextInput, StyleSheet } from 'react-native';
 import { Link } from 'react-router-native';
-import { Avatar } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import { colors } from '../styles/colors';
 import AppText from '../components/AppText';
@@ -17,8 +16,8 @@ export default function Home() {
           <StatusBar backgroundColor={colors.tertiary} />
           <View style={styles.titleContainer}>
             <AppText size={24} weight="bold">Olá, Gabriel</AppText>
-            <Link to="/profile" underlayColor="transparent">
-              <Avatar.Icon icon="account" size={48} />
+            <Link style={styles.avatarLink} to="/profile" underlayColor={colors.secondary}>
+              <MaterialIcons name="account-outline" size={28} color="white" />
             </Link>
           </View>
           <View style={styles.searchContainer}>
@@ -109,6 +108,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between'
+  },
+  avatarLink: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 48,
+    height: 48,
+    backgroundColor: colors.primary,
+    borderRadius: 24
   },
   searchContainer: {
     marginTop: 16

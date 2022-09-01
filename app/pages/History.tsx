@@ -1,6 +1,6 @@
 import { View, StyleSheet, Image } from 'react-native';
-import AppText from '../components/AppText';
 import folderImage from '../../assets/images/folder.png';
+import AppText from '../components/AppText';
 import Button from '../components/Button';
 import PageContainer from '../components/PageContainer';
 

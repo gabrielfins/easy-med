@@ -1,7 +1,8 @@
 import { View, StyleSheet } from 'react-native';
-import { Avatar } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
 import { colors } from '../styles/colors';
+import { Link } from 'react-router-native';
+import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AppText from '../components/AppText';
 import ProfileLink from '../components/ProfileLink';
 import PageContainer from '../components/PageContainer';
@@ -12,7 +13,14 @@ export default function Home() {
       <View style={styles.header}>
         <StatusBar backgroundColor={colors.white} />
         <View style={styles.nameBox}>
-          <Avatar.Icon icon="account" size={90} />
+          <View>
+            <View style={styles.avatar}>
+              <MaterialIcons name="account-outline" color={colors.primary} size={48} />
+            </View>
+            <Link style={styles.avatarEdit} underlayColor="#EAEAEA" to="/profile">
+              <MaterialIcons name="pencil" size={18} color="#6E6E6E" />
+            </Link>
+          </View>
           <View style={styles.name}>
             <AppText size={24} weight="bold">Gabriel Oliveira</AppText>
             <AppText style={styles.underName} size={16}>Paciente</AppText>
@@ -25,7 +33,7 @@ export default function Home() {
         <ProfileLink to="/profile" title="Configurações" description="Privacidade, segurança e mais" icon="cog-outline" />
         <ProfileLink to="/profile" title="Dê sua opinião" description="Compartilhe sua experiência" icon="text-box-outline" />
         <ProfileLink to="/profile" title="Ajuda" description="Ajuda, fale conosco, e mais" icon="account-question-outline" />
-        <ProfileLink to="/profile" title="Sair" icon="exit-to-app" />
+        <ProfileLink to="/login" title="Sair" icon="exit-to-app" />
       </View>
     </PageContainer>
   );
@@ -41,7 +49,29 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-
+  },
+  avatar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+    backgroundColor: colors.secondary,
+  },
+  avatarEdit: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    width: 36,
+    height: 36,
+    borderColor: '#EAEAEA',
+    borderWidth: 1,
+    borderRadius: 18,
+    backgroundColor: 'white'
   },
   name: {
     display: 'flex',

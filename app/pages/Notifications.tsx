@@ -7,7 +7,7 @@ import PageContainer from '../components/PageContainer';
 export default function Notifications() {
   return (
     <PageContainer title="Notificações" returnTo="/profile">
-      <View style ={styles.view}>
+      <View style={styles.view}>
         <Image style={styles.folder} source={bellImage} />
         <AppText size={28} weight="bold">Sem notificações</AppText>
         <AppText>Você ainda não recebeu nenhuma notificação.</AppText>

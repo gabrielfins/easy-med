@@ -5,11 +5,13 @@ import Profile from './app/pages/Profile';
 import History from './app/pages/History';
 import Notifications from './app/pages/Notifications';
 import Appointments from './app/pages/Appointments';
+import Login from './app/pages/Login';
 
 export default function Router() {
   return (
     <NativeRouter>
       <Routes>
+        <Route path="/login" element={<Login />} />
         <Route path="/" element={<HomeLayout />}>
           <Route index element={<Home />} />
           <Route path="appointments" element={<Appointments />} />
