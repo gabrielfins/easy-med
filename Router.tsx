@@ -4,6 +4,8 @@ import Home from './app/pages/Home';
 import Profile from './app/pages/Profile';
 import History from './app/pages/History';
 import Notifications from './app/pages/Notifications';
+import Configurations from './app/pages/Configurations';
+import Help from './app/pages/Help';
 import Appointments from './app/pages/Appointments';
 import Login from './app/pages/Login';
 
@@ -19,6 +21,8 @@ export default function Router() {
           <Route path="profile" element={<Profile />} />
           <Route path="history" element={<History />} />
           <Route path="notifications" element={<Notifications />} />
+          <Route path="configurations" element={<Configurations />} />
+          <Route path="help" element={<Help />} />
         </Route>
       </Routes>
     </NativeRouter>
