@@ -7,8 +7,20 @@ import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import ShortcutButton from '../components/ShortcutButton';
 import EventLink from '../components/EventLink';
 import PageContainer from '../components/PageContainer';
+import { AppointmentService } from '../services/appointment-service';
 
 export default function Home() {
+  const appointmentService = new AppointmentService();
+
+  const pushAppointment = () => {
+    appointmentService.addAppointment({
+      date: new Date().toISOString(),
+      doctorId: 'medico',
+      location: '',
+      patientId: 'paciente'
+    });
+  };
+
   return (
     <PageContainer>
       <View style={styles.home}>
@@ -31,7 +43,7 @@ export default function Home() {
         <View style={styles.homeGroup}>
           <AppText>Acesso rápido</AppText>
           <View style={styles.shortcuts}>
-            <ShortcutButton icon="inbox-full" to="/">Receitas</ShortcutButton>
+            <ShortcutButton onPress={pushAppointment} icon="inbox-full" to="/">Receitas</ShortcutButton>
             <View style={styles.separator} />
             <ShortcutButton icon="chart-line" to="/">Exames</ShortcutButton>
             <View style={styles.separator} />

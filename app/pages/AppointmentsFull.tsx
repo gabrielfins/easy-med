@@ -3,6 +3,7 @@ import AppText from '../components/AppText';
 import Button from '../components/Button';
 import calenderImage from '../../assets/images/calender-dynamic-gradient.png';
 import PageContainer from '../components/PageContainer';
+import EventLink from '../components/EventLink';
 
 export default function Appointments() {
   return (
