@@ -1,18 +1,21 @@
 import { useState, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import { Link, useNavigate } from 'react-router-native';
 import { colors } from '../styles/colors';
+import { AuthService } from '../services/auth-service';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AppText from '../components/AppText';
 import Button from '../components/Button';
-import { AuthService } from '../services/auth-service';
+import { useNavigate } from 'react-router-native';
 import { PatientService } from '../services/patient-serivce';
-import { useAuth } from '../hooks/use-auth';
+import { Patient } from '../models/patient';
 
-export default function Login() {
+export default function Register() {
+  const [name, setName] = useState('');
+  const [cpf, setCpf] = useState('');
+  const [birthday, setBirthday] = useState('');
   const [email, setEmail] = useState('');
-  const [passoword, setPassword] = useState('');
+  const [password, setPassword] = useState('');
   const [hiddenPassword, setHiddenPassword] = useState(true);
 
   const authService = useMemo(() => new AuthService(), []);
@@ -20,14 +23,19 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  const { setPatient } = useAuth();
-
-  const login = async () => {
+  const register = async () => {
     try {
-      const user = await authService.loginPatient(email, passoword);
-      const patient = await patientService.get(user.user.uid);
-      setPatient(patient);
-      navigate('/');
+      const user = await authService.createPatient(email, password);
+
+      const patient: Patient = {
+        name,
+        cpf,
+        birthday,
+        email
+      };
+
+      await patientService.set(user.user.uid, patient);
+      navigate('/login');
     } catch (error) {
       console.log(error);
     }
@@ -40,7 +48,7 @@ export default function Login() {
         <View style={styles.avatar}>
           <MaterialIcons name="account-outline" size={44} color="#969696" />
         </View>
-        <AppText style={styles.information}>Para começar, faça login.</AppText>
+        <AppText style={styles.information}>Crie sua conta.</AppText>
       </View>
       <View style={styles.loginForm}>
         <TextInput
@@ -51,7 +59,7 @@ export default function Login() {
           left={<TextInput.Icon icon="account-outline" color="#9C9C9C" />}
         />
         <TextInput
-          value={passoword}
+          value={password}
           onChangeText={setPassword}
           style={styles.formFieldMarginTop}
           mode="outlined"
@@ -60,14 +68,11 @@ export default function Login() {
           left={<TextInput.Icon icon="lock-outline" color="#9C9C9C" />}
           right={<TextInput.Icon icon={hiddenPassword ? 'eye' : 'eye-off'} color="#9C9C9C" onPress={() => setHiddenPassword(c => !c)} />}
         />
-        <Link style={[styles.formFieldMarginTop, styles.forgottenPassword]} underlayColor="#e2e2e2" to="/">
-          <AppText style={styles.forgottenPasswordText}>Esqueceu a senha?</AppText>
-        </Link>
       </View>
       <View style={styles.actionsContainer}>
-        <Button stretch onPress={login}>Login</Button>
+        <Button stretch onPress={register}>Cadastre-se</Button>
         <AppText style={styles.actionText}>ou</AppText>
-        <Button link to="/register" stretch>Cadastre-se</Button>
+        <Button link to="/login" stretch>Faça login</Button>
       </View>
     </View>
   );

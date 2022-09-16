@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { Provider as PaperProvider, MD3LightTheme as defaultTheme } from 'react-native-paper';
 import Router from './Router';
+import AuthContextProvider from './app/contexts/AuthContext';
 
 const theme = {
   ...defaultTheme,
@@ -27,12 +28,14 @@ export default function App() {
   }
 
   return (
-    <PaperProvider theme={theme}>
-      <View style={styles.appContainer}>
-        <StatusBar backgroundColor="white" />
-        <Router />
-      </View>
-    </PaperProvider>
+    <AuthContextProvider>
+      <PaperProvider theme={theme}>
+        <View style={styles.appContainer}>
+          <StatusBar backgroundColor="white" />
+          <Router />
+        </View>
+      </PaperProvider>
+    </AuthContextProvider>
   );
 }
 

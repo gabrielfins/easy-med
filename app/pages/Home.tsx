@@ -1,24 +1,48 @@
+import { useEffect, useMemo, useState } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import { Link } from 'react-router-native';
 import { StatusBar } from 'expo-status-bar';
+import { onValue } from 'firebase/database';
+import { AppointmentService } from '../services/appointment-service';
+import { Appointment } from '../models/appointment';
 import { colors } from '../styles/colors';
-import AppText from '../components/AppText';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import AppText from '../components/AppText';
 import ShortcutButton from '../components/ShortcutButton';
 import EventLink from '../components/EventLink';
 import PageContainer from '../components/PageContainer';
-import { AppointmentService } from '../services/appointment-service';
 
 export default function Home() {
-  const appointmentService = new AppointmentService();
+  const appointmentService = useMemo(() => new AppointmentService(), []);
+  const [patientId, setPatientId] = useState('paciente');
+  const [appointments, setAppointments] = useState<Record<string, Appointment> | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = onValue(appointmentService.watch(patientId), (snapshot) => {
+      setAppointments(snapshot.val());
+    });
+
+    return unsubscribe;
+  }, []);
 
   const pushAppointment = () => {
-    appointmentService.addAppointment({
+    appointmentService.create({
       date: new Date().toISOString(),
       doctorId: 'medico',
       location: '',
-      patientId: 'paciente'
+      patientId: 'paciente',
+      isDone: false,
+      price: 200,
+      type: 'presential'
     });
+  };
+
+  const getDate = (date: string) => {
+    const formatter = new Intl.DateTimeFormat('pt-BR', {
+      dateStyle: 'short',
+      timeStyle: 'short'
+    });
+    return formatter.format(new Date(date));
   };
 
   return (
@@ -50,26 +74,25 @@ export default function Home() {
             <ShortcutButton icon="pill" to="/">Remédios</ShortcutButton>
           </View>
         </View>
-        <View style={styles.homeGroup}>
-          <AppText>Próximos agendamentos</AppText>
-          <View style={styles.homeList}>
-            <EventLink
-              icon="clock-outline"
-              description="Neurologista"
-              title="Dr. Luiz Gomes"
-              info="25/04/2022 • 17h30"
-              to="/"
-            />
-            <View style={styles.vSeparator} />
-            <EventLink
-              icon="clock-outline"
-              description="Ortopedista"
-              title="Dr. Roberto Alvez"
-              info="04/05/2022 • 14h00"
-              to="/"
-            />
+        {appointments ? (
+          <View style={styles.homeGroup}>
+            <AppText>Próximos agendamentos</AppText>
+            <View style={styles.homeList}>
+              {Object.entries(appointments).map(([key, value], index) => (
+                <View key={key}>
+                  <EventLink
+                    icon="clock-outline"
+                    description="Neurologista"
+                    title={value.doctorId}
+                    info={getDate(value.date)}
+                    to="/"
+                  />
+                  {index < Object.entries(appointments).length - 1 ? <View style={styles.vSeparator} /> : null}
+                </View>
+              ))}
+            </View>
           </View>
-        </View>
+        ) : null}
         <View style={styles.homeGroup}>
           <AppText>Próximos remédios</AppText>
           <View style={styles.homeList}>
