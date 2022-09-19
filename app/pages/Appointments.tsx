@@ -6,14 +6,14 @@ import PageContainer from '../components/PageContainer';
 
 export default function Appointments() {
   return (
-    <PageContainer title="Agendamentos">
+    <PageContainer title="Agendamentos" returnTo="/profile">
       <View style ={styles.view}>
         <Image style={styles.folder} source={calenderImage} />
         <AppText size={28} weight="bold">Sem Agendamentos</AppText>
         <AppText>Você não possui nenhum agendamento marcado.</AppText>
       </View>
       <View style={styles.agendamento}>
-        <Button type="tonal" link to="/">Faça um Agendamento</Button>
+        <Button type="tonal" link to="/newappointment">Faça um Agendamento</Button>
       </View>
     </PageContainer>
   );

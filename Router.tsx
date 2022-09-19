@@ -10,6 +10,8 @@ import Appointments from './app/pages/Appointments';
 import Login from './app/pages/Login';
 import Register from './app/pages/Register';
 import ProtectedRoute from './app/components/ProtectedRoute';
+import NewAppointment from './app/pages/NewAppointment';
+import Specialties from './app/pages/Specialties';
 
 export default function Router() {
   return (
@@ -26,6 +28,8 @@ export default function Router() {
           <Route path="notifications" element={<Notifications />} />
           <Route path="configurations" element={<Settings />} />
           <Route path="help" element={<Help />} />
+          <Route path="newappointment" element={<NewAppointment/>}/>
+          <Route path="specialties" element={<Specialties/>}/>
         </Route>
       </Routes>
     </NativeRouter>
