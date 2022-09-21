@@ -6,53 +6,21 @@ import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 export default function Specialties() {
   return (
-    <PageContainer title="Nova Consulta" returnTo="/newappointment">
+    <PageContainer title="Nova Consulta" returnTo="/appointments/new">
       <View>
-            <View style={styles.searchContent}>
-              <MaterialIcons name="magnify" size={28} color="#ADADAD" />
-              <TextInput style={styles.searchInput} placeholder="Especialidade, médico, etc..." />
-            </View>
-            <View style={styles.homeGroup}>
-              <EventLink3
-                title="Cardiologia"
-                info="2 médicos"
-                to=""
-              />
-              <EventLink3
-                title="Dermatologia"
-                info="2 médicos"
-                to=""
-              />
-              <EventLink3
-                title="Genecologia"
-                info="3 médicos"
-                to=""
-              />
-              <EventLink3
-                title="Neurologia"
-                info="4 médicos"
-                to=""
-              />
-              <EventLink3
-                title="Ortopedia"
-                info="5 médicos"
-                to=""
-              />
-              <EventLink3
-                title="Otorrinolaringologia"
-                info="1 médicos"
-                to=""
-              />
-              <EventLink3
-                title="Pediatria"
-                info="4 médicos"
-                to=""
-              />
-              <EventLink3
-                title="Psiquiatria"
-                info="2 médicos"
-                to=""
-              />
+        <View style={styles.searchContent}>
+          <MaterialIcons name="magnify" size={28} color="#ADADAD" />
+          <TextInput style={styles.searchInput} placeholder="Especialidade, médico, etc..." />
+        </View>
+        <View style={styles.homeGroup}>
+          <EventLink3 title="Cardiologia" info="2 médicos" to="" />
+          <EventLink3 title="Dermatologia" info="2 médicos" to="" />
+          <EventLink3 title="Genecologia" info="3 médicos" to="" />
+          <EventLink3 title="Neurologia" info="4 médicos" to="" />
+          <EventLink3 title="Ortopedia" info="5 médicos" to="" />
+          <EventLink3 title="Otorrinolaringologia" info="1 médicos" to="" />
+          <EventLink3 title="Pediatria" info="4 médicos" to=""/>
+          <EventLink3 title="Psiquiatria" info="2 médicos" to="" />
         </View>
       </View>
     </PageContainer>

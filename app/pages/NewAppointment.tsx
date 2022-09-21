@@ -6,18 +6,9 @@ export default function NewAppointment() {
   return (
     <PageContainer title="Novo Agendamento" returnTo="/appointments">
       <View style={styles.homeGroup}>
-              <EventLink2
-                icon="doctor"
-                title="Consulta"
-                to="/specialties"
-              />
-              
-              <EventLink2
-                icon="chart-line"
-                title="Exame"
-                to=""
-              />
-        </View>
+        <EventLink2 icon="doctor" title="Consulta" to="specialties" />
+        <EventLink2 icon="chart-line" title="Exame" to=""/>
+      </View>
     </PageContainer>
   );
 }

@@ -1,13 +1,24 @@
+import { useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { colors } from '../styles/colors';
-import { Link } from 'react-router-native';
+import { Link, useNavigate } from 'react-router-native';
+import { AuthService } from '../services/auth-service';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AppText from '../components/AppText';
 import ProfileLink from '../components/ProfileLink';
 import PageContainer from '../components/PageContainer';
+import ProfileButton from '../components/ProfileButton';
 
-export default function Home() {
+export default function Profile() {
+  const authService = useMemo(() => new AuthService(), []);
+  const navigate = useNavigate();
+
+  const logout = async () => {
+    await authService.logout();
+    navigate('/login');
+  };
+
   return (
     <PageContainer>
       <View style={styles.header}>
@@ -33,7 +44,7 @@ export default function Home() {
         <ProfileLink to="/configurations" title="Configurações" description="Privacidade, segurança e mais" icon="cog-outline" />
         <ProfileLink to="/profile" title="Dê sua opinião" description="Compartilhe sua experiência" icon="text-box-outline" />
         <ProfileLink to="/help" title="Ajuda" description="Ajuda, fale conosco, e mais" icon="account-question-outline" />
-        <ProfileLink to="/login" title="Sair" icon="exit-to-app" />
+        <ProfileButton title="Sair" icon="exit-to-app" onPress={logout} />
       </View>
     </PageContainer>
   );

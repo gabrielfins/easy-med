@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from './firebase-service';
 
 export class AuthService {
@@ -10,19 +10,15 @@ export class AuthService {
     return signInWithEmailAndPassword(auth, email, password);
   }
 
-  async logoutPatient() {
-
-  }
-
   async loginDoctor() {
-
-  }
-
-  async createDoctor() {
-
-  }
-
-  async logoutDoctor() {
     
+  }
+  
+  async createDoctor() {
+    
+  }
+
+  async logout() {
+    return signOut(auth);
   }
 }

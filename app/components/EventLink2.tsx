@@ -20,7 +20,6 @@ export default function EventLink2({icon, title, ...props}: EventLink2Props) {
           <View style={{flex: 1}}>
             <AppText size={16}>{title}</AppText>
           </View>
-    
         </View>
         <View style={styles.arrow}>
           <MaterialIcons name="chevron-right" size={28} />

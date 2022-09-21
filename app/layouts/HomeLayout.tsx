@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Outlet } from 'react-router-native';
 import NavBar from '../components/NavBar';
 

@@ -1,14 +1,15 @@
-import { View, StyleSheet, Image } from 'react-native';
-import folderImage from '../../assets/images/folder.png';
+import { View, StyleSheet } from 'react-native';
+import folder from '../../assets/images/folder-dynamic-gradient.png';
 import AppText from '../components/AppText';
 import Button from '../components/Button';
+import EmptyStateIcon from '../components/EmptyStateIcon';
 import PageContainer from '../components/PageContainer';
 
 export default function History() {
   return (
     <PageContainer title="Histórico" returnTo="/profile">
       <View style ={styles.view}>
-        <Image style={styles.folder} source={folderImage} />
+        <EmptyStateIcon icon={folder} />
         <AppText size={28} weight="bold">Histórico Vazio</AppText>
         <AppText>Nenhuma consulta realizada até o momento.</AppText>
       </View>
@@ -24,12 +25,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 50,
-  },
-  folder: {
-    flex: 1,
-    width: 250,
-    resizeMode: 'contain',
-    paddingBottom: 70,
   },
   text1: {
     fontFamily: 'OpenSans',

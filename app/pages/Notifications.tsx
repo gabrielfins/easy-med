@@ -1,14 +1,15 @@
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import AppText from '../components/AppText';
-import bellImage from '../../assets/images/bell.png';
 import Button from '../components/Button';
 import PageContainer from '../components/PageContainer';
+import EmptyStateIcon from '../components/EmptyStateIcon';
+import bell from '../../assets/images/bell-dynamic-gradient.png';
 
 export default function Notifications() {
   return (
     <PageContainer title="Notificações" returnTo="/profile">
       <View style={styles.view}>
-        <Image style={styles.folder} source={bellImage} />
+        <EmptyStateIcon icon={bell} />
         <AppText size={28} weight="bold">Sem notificações</AppText>
         <AppText>Você ainda não recebeu nenhuma notificação.</AppText>
       </View>
@@ -24,12 +25,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 50,
-  },
-  folder: {
-    flex: 1,
-    width: 250,
-    resizeMode: 'contain',
-    paddingBottom: 70,
   },
   text1: {
     fontFamily: 'OpenSans',

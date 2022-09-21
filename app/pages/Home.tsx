@@ -6,6 +6,7 @@ import { onValue } from 'firebase/database';
 import { AppointmentService } from '../services/appointment-service';
 import { Appointment } from '../models/appointment';
 import { colors } from '../styles/colors';
+import { formatDate } from '../helpers/format-date';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AppText from '../components/AppText';
 import ShortcutButton from '../components/ShortcutButton';
@@ -35,14 +36,6 @@ export default function Home() {
       price: 200,
       type: 'presential'
     });
-  };
-
-  const getDate = (date: string) => {
-    const formatter = new Intl.DateTimeFormat('pt-BR', {
-      dateStyle: 'short',
-      timeStyle: 'short'
-    });
-    return formatter.format(new Date(date));
   };
 
   return (
@@ -84,7 +77,7 @@ export default function Home() {
                     icon="clock-outline"
                     description="Neurologista"
                     title={value.doctorId}
-                    info={getDate(value.date)}
+                    info={formatDate(value.date)}
                     to="/"
                   />
                   {index < Object.entries(appointments).length - 1 ? <View style={styles.vSeparator} /> : null}

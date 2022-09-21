@@ -1,19 +1,20 @@
 import { View, StyleSheet, Image } from 'react-native';
 import AppText from '../components/AppText';
 import Button from '../components/Button';
-import calenderImage from '../../assets/images/calender-dynamic-gradient.png';
 import PageContainer from '../components/PageContainer';
+import EmptyStateIcon from '../components/EmptyStateIcon';
+import calender from '../../assets/images/calender-dynamic-gradient.png';
 
 export default function Appointments() {
   return (
-    <PageContainer title="Agendamentos" returnTo="/profile">
-      <View style ={styles.view}>
-        <Image style={styles.folder} source={calenderImage} />
+    <PageContainer title="Agendamentos">
+      <View style={styles.view}>
+        <EmptyStateIcon icon={calender} />
         <AppText size={28} weight="bold">Sem Agendamentos</AppText>
         <AppText>Você não possui nenhum agendamento marcado.</AppText>
       </View>
       <View style={styles.agendamento}>
-        <Button type="tonal" link to="/newappointment">Faça um Agendamento</Button>
+        <Button type="tonal" link to="new">Faça um Agendamento</Button>
       </View>
     </PageContainer>
   );
