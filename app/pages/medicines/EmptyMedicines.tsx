@@ -1,20 +1,20 @@
-import { View, StyleSheet, Image } from 'react-native';
-import AppText from '../components/AppText';
-import Button from '../components/Button';
-import PageContainer from '../components/PageContainer';
-import EmptyStateIcon from '../components/EmptyStateIcon';
-import calender from '../../assets/images/calender-dynamic-gradient.png';
+import { View, StyleSheet } from 'react-native';
+import AppText from '../../components/AppText';
+import Button from '../../components/Button';
+import PageContainer from '../../components/PageContainer';
+import EmptyStateIcon from '../../components/EmptyStateIcon';
+import file from '../../../assets/images/file-text-dynamic-gradient.png';
 
-export default function Appointments() {
+export default function EmptyMedicines() {
   return (
-    <PageContainer title="Agendamentos">
+    <PageContainer title="Medicamentos" returnTo="/profile">
       <View style={styles.view}>
-        <EmptyStateIcon icon={calender} />
-        <AppText size={28} weight="bold">Sem Agendamentos</AppText>
-        <AppText>Você não possui nenhum agendamento marcado.</AppText>
+        <EmptyStateIcon icon={file} />
+        <AppText size={28} weight="bold">Sem Medicamentos</AppText>
+        <AppText>Você ainda não cadastrou nenhum medicamento.</AppText>
       </View>
       <View style={styles.agendamento}>
-        <Button type="tonal" link to="new">Faça um Agendamento</Button>
+        <Button type="tonal" link to="new">Cadastre um Medicamento</Button>
       </View>
     </PageContainer>
   );

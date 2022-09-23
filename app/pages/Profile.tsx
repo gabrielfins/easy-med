@@ -39,6 +39,7 @@ export default function Profile() {
         </View>
       </View>
       <View style={styles.blocks}>
+        <ProfileLink to="/medicines" title="Medicamentos" description="Lembretes de medicação" icon="pill" />
         <ProfileLink to="/notifications" title="Notificações" description="Central de notificações" icon="bell-outline" />
         <ProfileLink to="/history" title="Histórico" description="Consultas realizadas" icon="folder-outline" />
         <ProfileLink to="/configurations" title="Configurações" description="Privacidade, segurança e mais" icon="cog-outline" />

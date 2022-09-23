@@ -28,6 +28,7 @@ export default function Register() {
       const user = await authService.createPatient(email, password);
 
       const patient: Patient = {
+        id: user.user.uid,
         name,
         cpf,
         birthday,

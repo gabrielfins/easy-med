@@ -11,10 +11,12 @@ export default function AuthGuard({ children }: AuthGuardProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
-      navigate('/');
-    } else {
+    if (user === undefined) {
+      navigate('/empty');
+    } else if (user === null) {
       navigate('/login');
+    } else {
+      navigate('/');
     }
   }, [user]);
 

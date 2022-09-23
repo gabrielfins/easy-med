@@ -1,6 +1,6 @@
 import { View, StyleSheet } from 'react-native';
-import PageContainer from '../components/PageContainer';
-import EventLink2 from '../components/EventLink2';
+import PageContainer from '../../components/PageContainer';
+import EventLink2 from '../../components/EventLink2';
 
 export default function NewAppointment() {
   return (

@@ -7,6 +7,9 @@ import { AppointmentService } from '../services/appointment-service';
 import { Appointment } from '../models/appointment';
 import { colors } from '../styles/colors';
 import { formatDate } from '../helpers/format-date';
+import { useAuth } from '../hooks/use-auth';
+import { Medicine } from '../models/medicine';
+import { MedicineService } from '../services/medicine-service';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AppText from '../components/AppText';
 import ShortcutButton from '../components/ShortcutButton';
@@ -14,16 +17,27 @@ import EventLink from '../components/EventLink';
 import PageContainer from '../components/PageContainer';
 
 export default function Home() {
-  const appointmentService = useMemo(() => new AppointmentService(), []);
-  const [patientId, setPatientId] = useState('paciente');
+  const { patient } = useAuth();
+
   const [appointments, setAppointments] = useState<Record<string, Appointment> | null>(null);
+  const [medicines, setMedicines] = useState<Record<string, Medicine> | null>(null);
+  
+  const appointmentService = useMemo(() => new AppointmentService(), []);
+  const medicineService = useMemo(() => new MedicineService(), []);
 
   useEffect(() => {
-    const unsubscribe = onValue(appointmentService.watch(patientId), (snapshot) => {
+    const unsubAppointments = onValue(appointmentService.watch(patient?.id || ''), (snapshot) => {
       setAppointments(snapshot.val());
     });
 
-    return unsubscribe;
+    const unsubMedicines = onValue(medicineService.watch(patient?.id || ''), (snapshot) => {
+      setMedicines(snapshot.val());
+    });
+
+    return () => {
+      unsubAppointments();
+      unsubMedicines();
+    };
   }, []);
 
   const pushAppointment = () => {
@@ -31,7 +45,7 @@ export default function Home() {
       date: new Date().toISOString(),
       doctorId: 'medico',
       location: '',
-      patientId: 'paciente',
+      patientId: patient?.id || '',
       isDone: false,
       price: 200,
       type: 'presential'
@@ -86,34 +100,25 @@ export default function Home() {
             </View>
           </View>
         ) : null}
-        <View style={styles.homeGroup}>
-          <AppText>Próximos remédios</AppText>
-          <View style={styles.homeList}>
-            <EventLink
-              icon="pill"
-              description="1 comprimido antes de comer"
-              title="Biomag"
-              info="Hoje • 12h00"
-              to="/"
-            />
-            <View style={styles.vSeparator} />
-            <EventLink
-              icon="pill"
-              description="1 comprimido"
-              title="Alprazolam"
-              info="Hoje • 18h00"
-              to="/"
-            />
-            <View style={styles.vSeparator} />
-            <EventLink
-              icon="pill"
-              description="1 comprimido antes de dormir"
-              title="Venvanse"
-              info="Hoje • 23h00"
-              to="/"
-            />
+        {medicines ? (
+          <View style={styles.homeGroup}>
+            <AppText>Próximos remédios</AppText>
+            <View style={styles.homeList}>
+              {Object.entries(medicines).map(([key, value], index) => (
+                <View key={key}>
+                  <EventLink
+                    icon="pill"
+                    description={value.description}
+                    info={value.time}
+                    title={value.name}
+                    to={`/medicine/edit/${key}`}
+                  />
+                  {index < Object.entries(medicines).length - 1 ? <View style={styles.vSeparator} /> : null}
+                </View>
+              ))}
+            </View>
           </View>
-        </View>
+        ) : null}
       </View>
     </PageContainer>
   );

@@ -1,43 +1,43 @@
 import { View, StyleSheet, Image } from 'react-native';
-import AppText from '../components/AppText';
-import Button from '../components/Button';
+import AppText from '../../components/AppText';
+import Button from '../../components/Button';
 import calenderImage from '../../assets/images/calender-dynamic-gradient.png';
-import PageContainer from '../components/PageContainer';
-import EventLink from '../components/EventLink';
+import PageContainer from '../../components/PageContainer';
+import EventLink from '../../components/EventLink';
 
 export default function Appointments() {
   return (
     <PageContainer title="Agendamentos">
       <View style={styles.homeList}>
-            <EventLink
-              icon="clock-outline"
-              description="Neurologista"
-              title="Dr. Luiz Gomes"
-              info="25/04/2022 • 17h30"
-              to="/"
-            />
-            <View style={styles.vSeparator} />
-            <EventLink
-              icon="clock-outline"
-              description="Ortopedista"
-              title="Dr. Roberto Alvez"
-              info="04/05/2022 • 14h00"
-              to="/"
-            />
-            <EventLink
-              icon="clock-outline"
-              description="Psiquiatra"
-              title="Dra. Luiza Pereira"
-              info="07/05/2022 • 09h00"
-              to="/"
-            />
-            <EventLink
-              icon="clock-outline"
-              description="Otorrinolaringologista"
-              title="Dra. Ana Clara da Silva"
-              info="25/04/2022 • 16h30"
-              to="/"
-            />
+        <EventLink
+          icon="clock-outline"
+          description="Neurologista"
+          title="Dr. Luiz Gomes"
+          info="25/04/2022 • 17h30"
+          to="/"
+        />
+        <View style={styles.vSeparator} />
+        <EventLink
+          icon="clock-outline"
+          description="Ortopedista"
+          title="Dr. Roberto Alvez"
+          info="04/05/2022 • 14h00"
+          to="/"
+        />
+        <EventLink
+          icon="clock-outline"
+          description="Psiquiatra"
+          title="Dra. Luiza Pereira"
+          info="07/05/2022 • 09h00"
+          to="/"
+        />
+        <EventLink
+          icon="clock-outline"
+          description="Otorrinolaringologista"
+          title="Dra. Ana Clara da Silva"
+          info="25/04/2022 • 16h30"
+          to="/"
+        />
       </View>
       <View style={styles.agendamentocontainer}>
         <Button type="tonal" link to="/" style={styles.buttonNew}>Faça um Agendamento</Button>

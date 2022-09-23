@@ -9,11 +9,7 @@ export class PatientService {
 
   async get(patientId: string): Promise<Patient | null> {
     const snapshot = await get(query(ref(database, `patients/${patientId}`)));
-    if (snapshot.exists()) {
-      return snapshot.val();
-    } else {
-      return null;
-    }
+    return snapshot.val();
   }
 
   async set(patientId: string, patient: Patient): Promise<void> {

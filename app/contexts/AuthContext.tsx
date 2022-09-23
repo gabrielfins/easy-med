@@ -5,10 +5,10 @@ import { auth } from '../services/firebase-service';
 import { PatientService } from '../services/patient-serivce';
 
 interface AuthContextType {
-  user: User | null;
-  patient: Patient | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
-  setPatient: React.Dispatch<React.SetStateAction<Patient | null>>;
+  user: User | null | undefined;
+  patient: Patient | null | undefined;
+  setUser: React.Dispatch<React.SetStateAction<User | null | undefined>>;
+  setPatient: React.Dispatch<React.SetStateAction<Patient | null | undefined>>;
 }
 
 interface AuthContextProviderProps {
@@ -18,8 +18,8 @@ interface AuthContextProviderProps {
 export const AuthContext = createContext({} as AuthContextType);
 
 export default function AuthContextProvider({ children }: AuthContextProviderProps) {
-  const [user, setUser] = useState<User | null>(null);
-  const [patient, setPatient] = useState<Patient | null>(null);
+  const [user, setUser] = useState<User | null | undefined>();
+  const [patient, setPatient] = useState<Patient | null | undefined>();
 
   const patientService = useMemo(() => new PatientService(), []);
 
