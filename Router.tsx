@@ -16,6 +16,7 @@ import Medicines from './app/pages/medicines/Medicines';
 import NewMedicine from './app/pages/medicines/NewMedicine';
 import EditMedicine from './app/pages/medicines/EditMedicine';
 import Empty from './app/components/Empty';
+import PersonalInfo from './app/pages/PersonalInfo';
 
 export default function Router() {
   return (
@@ -33,7 +34,8 @@ export default function Router() {
             <Route path="profile" element={<Profile />} />
             <Route path="history" element={<History />} />
             <Route path="notifications" element={<Notifications />} />
-            <Route path="configurations" element={<Settings />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="settings/personal-info" element={<PersonalInfo />} />
             <Route path="help" element={<Help />} />
             <Route path="medicines" element={<Medicines />} />
             <Route path="medicines/new" element={<NewMedicine />} />

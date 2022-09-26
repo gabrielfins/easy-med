@@ -4,4 +4,5 @@ export interface Medicine {
   time: string;
   frequency: string;
   description: string;
+  startDate: string;
 }

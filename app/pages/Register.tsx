@@ -35,7 +35,7 @@ export default function Register() {
         email
       };
 
-      await patientService.set(user.user.uid, patient);
+      await patientService.update(user.user.uid, patient);
       navigate('/login');
     } catch (error) {
       console.log(error);

@@ -3,6 +3,7 @@ import { onAuthStateChanged, User } from 'firebase/auth';
 import { Patient } from '../models/patient';
 import { auth } from '../services/firebase-service';
 import { PatientService } from '../services/patient-serivce';
+import { onValue } from 'firebase/database';
 
 interface AuthContextType {
   user: User | null | undefined;
@@ -28,9 +29,9 @@ export default function AuthContextProvider({ children }: AuthContextProviderPro
       if (!user) return;
 
       setUser(user);
-      patientService.get(user.uid)
-        .then(setPatient)
-        .catch(console.log);
+      onValue(patientService.watch(user.uid), (snapshot) => {
+        setPatient(snapshot.val());
+      });
     });
 
     return unsubscribe;

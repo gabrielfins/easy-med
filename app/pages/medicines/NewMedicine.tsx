@@ -1,12 +1,14 @@
-import { useMemo, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { TextInput } from "react-native-paper";
-import { useNavigate } from "react-router-native";
-import Button from "../../components/Button";
-import PageContainer from "../../components/PageContainer";
-import { useAuth } from "../../hooks/use-auth";
-import { Medicine } from "../../models/medicine";
-import { MedicineService } from "../../services/medicine-service";
+import { useMemo, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { useNavigate } from 'react-router-native';
+import { useAuth } from '../../hooks/use-auth';
+import { Medicine } from '../../models/medicine';
+import { MedicineService } from '../../services/medicine-service';
+import Button from '../../components/Button';
+import PageContainer from '../../components/PageContainer';
+import Input from '../../components/Input';
+import TimeInput from '../../components/TimeInput';
+import { useKeyboard } from '../../hooks/use-keyboard';
 
 export default function NewMedicine() {
   const { patient } = useAuth();
@@ -20,35 +22,40 @@ export default function NewMedicine() {
 
   const navigate = useNavigate();
 
+  const { isKeyboardVisible } = useKeyboard();
+
   const pushMedicine = async () => {
-    const medicine: Medicine = {
-      patientId: patient?.id || '',
-      name,
-      time,
-      frequency,
-      description
-    };
-
-    await medicineService.add(medicine);
-
-    navigate('/medicines');
+    try {
+      const medicine: Medicine = {
+        patientId: patient?.id || '',
+        name,
+        time,
+        frequency,
+        description,
+        startDate: new Date().toISOString()
+      };
+  
+      await medicineService.add(medicine);
+  
+      navigate('/medicines');
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (
     <View style={styles.container}>
-      <PageContainer style={styles.newMedicine} title="Novo Medicamento" returnTo="/medicines">
-        <TextInput mode="outlined" label="Nome" value={name} onChangeText={setName} />
-        <View style={styles.vSeparator} />
-        <TextInput mode="outlined" label="Horário" value={time} onChangeText={setTime} />
-        <View style={styles.vSeparator} />
-        <TextInput mode="outlined" label="Frequência" value={frequency} onChangeText={setFrequency} />
-        <View style={styles.vSeparator} />
-        <TextInput mode="outlined" label="Descrição" value={description} onChangeText={setDescription} />
-        <View style={styles.vSeparator} />
+      <PageContainer style={styles.content} title="Novo Medicamento" returnTo="/medicines">
+        <TimeInput onTimeChange={setTime} />
+        <Input label="Nome" style={styles.input} value={name} onChangeText={setName} />
+        <Input label="Frequência" style={styles.input} value={frequency} onChangeText={setFrequency} />
+        <Input label="Descrição" style={styles.input} value={description} onChangeText={setDescription} />
       </PageContainer>
-      <View style={styles.actionsContainer}>
-        <Button stretch disabled={!name || !time || !frequency || !description} onPress={pushMedicine}>Cadastrar</Button>
-      </View>
+      {!isKeyboardVisible ? (
+        <View style={styles.actionsContainer}>
+          <Button stretch disabled={!name || !time || !frequency || !description} onPress={pushMedicine}>Cadastrar</Button>
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -57,15 +64,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  newMedicine: {
-    paddingHorizontal: 20,
-    paddingTop: 12
+  content: {
+    padding: 20,
+    paddingTop: 0
   },
-  vSeparator: {
-    height: 8
+  input: {
+    marginTop : 16
   },
   actionsContainer: {
-    marginBottom: 20,
-    paddingHorizontal: 20
+    padding: 20,
   }
 });

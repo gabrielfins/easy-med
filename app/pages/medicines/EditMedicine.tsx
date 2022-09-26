@@ -1,16 +1,19 @@
 import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { TextInput } from 'react-native-paper';
 import { useNavigate, useParams } from 'react-router-native';
 import { useAuth } from '../../hooks/use-auth';
 import { Medicine } from '../../models/medicine';
 import { MedicineService } from '../../services/medicine-service';
 import Button from '../../components/Button';
 import PageContainer from '../../components/PageContainer';
+import Input from '../../components/Input';
+import TimeInput from '../../components/TimeInput';
+import { useKeyboard } from '../../hooks/use-keyboard';
 
 export default function EditMedicine() {
   const { patient } = useAuth();
 
+  const [medicine, setMedicine] = useState<Medicine>();
   const [name, setName] = useState('');
   const [time, setTime] = useState('');
   const [frequency, setFrequency] = useState('');
@@ -21,18 +24,19 @@ export default function EditMedicine() {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  const { isKeyboardVisible } = useKeyboard();
+
   useEffect(() => {
     if (!id) return;
 
     medicineService.get(id)
       .then((value) => {
-        console.log(value)
-        if (value) {
-          setName(value.name);
-          setTime(value.time);
-          setFrequency(value.frequency);
-          setDescription(value.description);
-        }
+        if (!value) return;
+        setMedicine(value);
+        setName(value.name);
+        setTime(value.time);
+        setFrequency(value.frequency);
+        setDescription(value.description);
       })
       .catch(console.log);
   }, []);
@@ -40,43 +44,50 @@ export default function EditMedicine() {
   const editMedicine = async () => {
     if (!id) return;
 
-    const medicine: Medicine = {
-      patientId: patient?.id || '',
-      name,
-      time,
-      frequency,
-      description
-    };
-
-    await medicineService.update(id, medicine);
-
-    navigate('/medicines');
+    try {
+      const newMedicine: Medicine = {
+        patientId: patient?.id || '',
+        name,
+        time,
+        frequency,
+        description,
+        startDate: medicine?.startDate || new Date().toISOString()
+      };
+  
+      await medicineService.update(id, newMedicine);
+  
+      navigate('/medicines');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const deleteMedicine = async () => {
     if (!id) return;
     
-    await medicineService.delete(id);
-    navigate('/medicines');
+    try {
+      await medicineService.delete(id);
+      navigate('/medicines');
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
     <View style={styles.container}>
-      <PageContainer style={styles.editMedicine} title="Medicamento" returnTo="/medicines">
-        <TextInput mode="outlined" label="Nome" value={name} onChangeText={setName} />
-        <View style={styles.vSeparator} />
-        <TextInput mode="outlined" label="Horário" value={time} onChangeText={setTime} />
-        <View style={styles.vSeparator} />
-        <TextInput mode="outlined" label="Frequência" value={frequency} onChangeText={setFrequency} />
-        <View style={styles.vSeparator} />
-        <TextInput mode="outlined" label="Descrição" value={description} onChangeText={setDescription} />
-        <View style={styles.vSeparator} />
+      <PageContainer style={styles.content} title="Medicamento" returnTo="/medicines">
+        <TimeInput time={time} onTimeChange={setTime} />
+        <Input label="Nome" style={styles.input} value={name} onChangeText={setName} />
+        <Input label="Frequência" style={styles.input} value={frequency} onChangeText={setFrequency} />
+        <Input label="Descrição" style={styles.input} value={description} onChangeText={setDescription} />
       </PageContainer>
-      <View style={styles.actionsContainer}>
-        <Button stretch disabled={!name || !time || !frequency || !description} onPress={editMedicine}>Atualizar Medicamento</Button>
-        <View style={styles.vSeparator} />
-        <Button stretch error onPress={deleteMedicine}>Deletar Medicamento</Button>
-      </View>
+      {!isKeyboardVisible ? (
+        <View style={styles.actionsContainer}>
+          <Button stretch disabled={!name || !time || !frequency || !description} onPress={editMedicine}>Atualizar Medicamento</Button>
+          <View style={styles.vSeparator} />
+          <Button stretch error onPress={deleteMedicine}>Deletar Medicamento</Button>
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -85,15 +96,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  editMedicine: {
-    paddingHorizontal: 20,
-    paddingTop: 12
+  content: {
+    padding: 20,
+    paddingTop: 0
+  },
+  input: {
+    marginTop: 16
   },
   vSeparator: {
-    height: 8
+    height: 16
   },
   actionsContainer: {
-    marginBottom: 20,
-    paddingHorizontal: 20
+    padding: 20,
   }
 });

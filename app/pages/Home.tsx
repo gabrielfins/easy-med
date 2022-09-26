@@ -41,11 +41,12 @@ export default function Home() {
   }, []);
 
   const pushAppointment = () => {
+    if (!patient?.id) return;
     appointmentService.create({
       date: new Date().toISOString(),
       doctorId: 'medico',
       location: '',
-      patientId: patient?.id || '',
+      patientId: patient.id,
       isDone: false,
       price: 200,
       type: 'presential'
@@ -78,7 +79,7 @@ export default function Home() {
             <View style={styles.separator} />
             <ShortcutButton icon="chart-line" to="/">Exames</ShortcutButton>
             <View style={styles.separator} />
-            <ShortcutButton icon="pill" to="/">Remédios</ShortcutButton>
+            <ShortcutButton icon="pill" to="/medicines">Remédios</ShortcutButton>
           </View>
         </View>
         {appointments ? (

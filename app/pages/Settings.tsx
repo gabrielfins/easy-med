@@ -6,13 +6,13 @@ export default function Settings() {
   return (
     <PageContainer title="Configurações" returnTo="/profile">
       <View style={styles.blocks}>
-        <ProfileLink to="" title="Informações pessoais" icon="account-outline" />
+        <ProfileLink to="personal-info" title="Informações pessoais" icon="account-outline" />
         <ProfileLink to="" title="Senha e segurança" icon="lock-outline" />
-        <ProfileLink to="" title="Notificações" icon="bell-outline" />
+        {/* <ProfileLink to="" title="Notificações" icon="bell-outline" />
         <ProfileLink to="" title="Permissões" icon="key-outline" />
         <ProfileLink to="" title="Acessibilidade" icon="human" />
         <ProfileLink to="" title="Tema" description="Claro" icon="lightbulb-on-outline" />
-        <ProfileLink to="" title="Idioma" description="Português Brasileiro" icon="earth" />
+        <ProfileLink to="" title="Idioma" description="Português Brasileiro" icon="earth" /> */}
         <ProfileLink to="" title="Sobre o aplicativo" description="Versão: 1.0" icon="information-outline" />
       </View>
     </PageContainer>

@@ -9,10 +9,13 @@ import AppText from '../components/AppText';
 import ProfileLink from '../components/ProfileLink';
 import PageContainer from '../components/PageContainer';
 import ProfileButton from '../components/ProfileButton';
+import { useAuth } from '../hooks/use-auth';
 
 export default function Profile() {
   const authService = useMemo(() => new AuthService(), []);
   const navigate = useNavigate();
+
+  const { patient } = useAuth();
 
   const logout = async () => {
     await authService.logout();
@@ -26,15 +29,15 @@ export default function Profile() {
         <View style={styles.nameBox}>
           <View>
             <View style={styles.avatar}>
-              <MaterialIcons name="account-outline" color={colors.primary} size={48} />
+              <MaterialIcons name="account-outline" color={colors.primary} size={36} />
             </View>
             <Link style={styles.avatarEdit} underlayColor="#EAEAEA" to="/profile">
               <MaterialIcons name="pencil" size={18} color="#6E6E6E" />
             </Link>
           </View>
           <View style={styles.name}>
-            <AppText size={24} weight="bold">Gabriel Oliveira</AppText>
-            <AppText style={styles.underName} size={16}>Paciente</AppText>
+            <AppText size={18} weight="bold">{patient?.name}</AppText>
+            <AppText style={styles.underName}>Paciente</AppText>
           </View>
         </View>
       </View>
@@ -42,9 +45,9 @@ export default function Profile() {
         <ProfileLink to="/medicines" title="Medicamentos" description="Lembretes de medicação" icon="pill" />
         <ProfileLink to="/notifications" title="Notificações" description="Central de notificações" icon="bell-outline" />
         <ProfileLink to="/history" title="Histórico" description="Consultas realizadas" icon="folder-outline" />
-        <ProfileLink to="/configurations" title="Configurações" description="Privacidade, segurança e mais" icon="cog-outline" />
-        <ProfileLink to="/profile" title="Dê sua opinião" description="Compartilhe sua experiência" icon="text-box-outline" />
-        <ProfileLink to="/help" title="Ajuda" description="Ajuda, fale conosco, e mais" icon="account-question-outline" />
+        <ProfileLink to="/settings" title="Configurações" description="Privacidade, segurança e mais" icon="cog-outline" />
+        {/* <ProfileLink to="/profile" title="Dê sua opinião" description="Compartilhe sua experiência" icon="text-box-outline" />
+        <ProfileLink to="/help" title="Ajuda" description="Ajuda, fale conosco, e mais" icon="account-question-outline" /> */}
         <ProfileButton title="Sair" icon="exit-to-app" onPress={logout} />
       </View>
     </PageContainer>
@@ -66,8 +69,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 90,
-    height: 90,
+    width: 75,
+    height: 75,
     borderRadius: 45,
     backgroundColor: colors.secondary,
   },

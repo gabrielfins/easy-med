@@ -50,8 +50,8 @@ export default function Medicines() {
           )) : null}
         </View>
       </PageContainer>
-      <View style={styles.newMedicineButton}>
-        <Button type="tonal" icon="plus" link to="/medicines/new">Novo Medicamento</Button>
+      <View style={styles.buttonContainer}>
+        <Button type="tonal" stretch icon="plus" link to="/medicines/new">Novo Medicamento</Button>
       </View>
     </View>
   );
@@ -65,12 +65,9 @@ const styles = StyleSheet.create({
     height: 8
   },
   group: {
-    marginTop: 12,
-    paddingHorizontal: 12
+    padding: 12
   },
-  newMedicineButton: {
-    position: 'absolute',
-    bottom: 12,
-    right: 12
+  buttonContainer: {
+    padding: 12
   }
 });

@@ -1,4 +1,4 @@
-import { get, push, query, ref, set } from 'firebase/database';
+import { DatabaseReference, get, push, query, ref, set } from 'firebase/database';
 import { Patient } from '../models/patient';
 import { database } from './firebase-service';
 
@@ -12,7 +12,11 @@ export class PatientService {
     return snapshot.val();
   }
 
-  async set(patientId: string, patient: Patient): Promise<void> {
+  async update(patientId: string, patient: Patient): Promise<void> {
     await set(ref(database, `patients/${patientId}`), patient);
+  }
+
+  watch(patientId: string): DatabaseReference {
+    return ref(database, `patients/${patientId}`);
   }
 }
