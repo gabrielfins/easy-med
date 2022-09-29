@@ -6,9 +6,10 @@ import Input, { InputProps } from './Input';
 
 interface SelectProps extends InputProps {
   options: Array<{value: any, text: string}>;
+  selectionChanged: (text: string) => void;
 }
 
-export default function Select({ label, options, ...props }: SelectProps) {
+export default function Select({ label, options, selectionChanged, ...props }: SelectProps) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [value, setValue] = useState(props.value);
 
@@ -19,7 +20,7 @@ export default function Select({ label, options, ...props }: SelectProps) {
   
   return (
     <View style={styles.select}>
-      <Input label={label} value={value} showSoftInputOnFocus={false} onFocus={() => setShowDropdown(true)} />
+      <Input label={label} value={value} showSoftInputOnFocus={false} onFocus={() => setShowDropdown(true)} onChangeText={selectionChanged} />
       {showDropdown ? (
         <ScrollView style={styles.dropdown}>
           {options.map((option, index) => (

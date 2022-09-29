@@ -14,7 +14,7 @@ export default function AuthGuard({ children }: AuthGuardProps) {
     if (user === undefined) {
       navigate('/empty');
     } else if (user === null) {
-      navigate('/login');
+      navigate('/login/patient');
     } else {
       navigate('/');
     }

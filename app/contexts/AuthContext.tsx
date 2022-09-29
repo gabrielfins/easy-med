@@ -4,12 +4,15 @@ import { Patient } from '../models/patient';
 import { auth } from '../services/firebase-service';
 import { PatientService } from '../services/patient-serivce';
 import { onValue } from 'firebase/database';
+import { Doctor } from '../models/doctor';
 
 interface AuthContextType {
   user: User | null | undefined;
   patient: Patient | null | undefined;
+  doctor: Doctor | null | undefined;
   setUser: React.Dispatch<React.SetStateAction<User | null | undefined>>;
   setPatient: React.Dispatch<React.SetStateAction<Patient | null | undefined>>;
+  setDoctor: React.Dispatch<React.SetStateAction<Doctor | null | undefined>>;
 }
 
 interface AuthContextProviderProps {
@@ -21,14 +24,16 @@ export const AuthContext = createContext({} as AuthContextType);
 export default function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [user, setUser] = useState<User | null | undefined>();
   const [patient, setPatient] = useState<Patient | null | undefined>();
+  const [doctor, setDoctor] = useState<Doctor | null | undefined>();
 
   const patientService = useMemo(() => new PatientService(), []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      
       if (!user) return;
 
-      setUser(user);
       onValue(patientService.watch(user.uid), (snapshot) => {
         setPatient(snapshot.val());
       });
@@ -38,7 +43,7 @@ export default function AuthContextProvider({ children }: AuthContextProviderPro
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, patient, setUser, setPatient }}>
+    <AuthContext.Provider value={{ user, patient, doctor, setUser, setPatient, setDoctor }}>
       {children}
     </AuthContext.Provider>
   );

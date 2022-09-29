@@ -1,20 +1,77 @@
-import { View, StyleSheet } from 'react-native';
+import { useEffect, useMemo, useState } from 'react';
+import { View, StyleSheet, TextInput } from 'react-native';
+import { onValue } from 'firebase/database';
+import { DoctorService } from '../../services/doctor-service';
+import { Doctor } from '../../models/doctor';
+import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import PageContainer from '../../components/PageContainer';
-import EventLink2 from '../../components/EventLink2';
+import DoctorCard from '../../components/DoctorCard';
 
 export default function NewAppointment() {
+  const [doctors, setDoctors] = useState<Record<string, Doctor>>({});
+  const [filteredDoctors, setFilteredDoctors] = useState<Record<string, Doctor>>({});
+  const doctorService = useMemo(() => new DoctorService(), []);
+
+  useEffect(() => {
+    onValue(doctorService.watchAll(), (snapshot) => {
+      setDoctors(snapshot.val());
+      setFilteredDoctors(snapshot.val());
+    });
+  }, []);
+
+  const filter = (filter: string) => {
+    const doctorsClone = {...doctors};
+    for (let key in doctorsClone) {
+      if (!doctorsClone[key].name.toLowerCase().includes(filter.toLowerCase()) && !doctorsClone[key].specialty.toLowerCase().includes(filter.toLowerCase())) {
+        delete doctorsClone[key];
+      }
+    }
+    setFilteredDoctors(doctorsClone);
+  };
+
   return (
     <PageContainer title="Novo Agendamento" returnTo="/appointments">
+      <View style={styles.searchContent}>
+        <MaterialIcons name="magnify" size={28} color="#ADADAD" />
+        <TextInput style={styles.searchInput} placeholder="Procure um médico ou especialidade" onChangeText={filter} />
+      </View>
       <View style={styles.homeGroup}>
-        <EventLink2 icon="doctor" title="Consulta" to="specialties" />
-        <EventLink2 icon="chart-line" title="Exame" to=""/>
+        {Object.entries(filteredDoctors).map(([key, value], index) => (
+          <View key={key}>
+            <DoctorCard title={value.name} description={value.specialty} to={`confirm/${key}`} />
+            {index < Object.entries(filteredDoctors).length ? <View style={styles.vSeparator} /> : null}
+          </View>
+        ))}
       </View>
     </PageContainer>
   );
 }
 
 const styles = StyleSheet.create({
+  searchContent: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 50,
+    paddingLeft: 16,
+    paddingRight: 16,
+    borderRadius: 25,
+    borderWidth: 1.5,
+    borderColor: '#ADADAD', 
+    backgroundColor: 'white',
+    marginHorizontal: 20,
+    marginBottom: 15
+  },
+  searchInput: {
+    flex: 1,
+    marginLeft: 8,
+    color: 'black',
+  },
   homeGroup: {
-    display: 'flex'
+    display: 'flex',
+    padding: 12
+  },
+  vSeparator: {
+    height: 8
   }
 });

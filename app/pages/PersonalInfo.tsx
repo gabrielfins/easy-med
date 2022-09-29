@@ -2,12 +2,12 @@ import { useState, useMemo } from 'react';
 import { useAuth } from '../hooks/use-auth';
 import { View, StyleSheet } from 'react-native';
 import { PatientService } from '../services/patient-serivce';
-import Button from '../components/Button';
-import Input from '../components/Input';
-import PageContainer from '../components/PageContainer';
 import { BloodType } from '../types/blood-type';
 import { useNavigate } from 'react-router-native';
 import { Patient } from '../models/patient';
+import Button from '../components/Button';
+import Input from '../components/Input';
+import PageContainer from '../components/PageContainer';
 
 export default function PersonalInfo() {
   const { patient } = useAuth();

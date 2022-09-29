@@ -7,8 +7,8 @@ import Notifications from './app/pages/Notifications';
 import Settings from './app/pages/Settings';
 import Help from './app/pages/Help';
 import EmptyAppointments from './app/pages/appointments/EmptyAppointments';
-import Login from './app/pages/Login';
-import Register from './app/pages/Register';
+import PatientLogin from './app/pages/PatientLogin';
+import PatientRegister from './app/pages/PatientRegister';
 import NewAppointment from './app/pages/appointments/NewAppointment';
 import Specialties from './app/pages/Specialties';
 import AuthGuard from './app/guards/AuthGuard';
@@ -17,14 +17,18 @@ import NewMedicine from './app/pages/medicines/NewMedicine';
 import EditMedicine from './app/pages/medicines/EditMedicine';
 import Empty from './app/components/Empty';
 import PersonalInfo from './app/pages/PersonalInfo';
+import DoctorLogin from './app/pages/DoctorLogin';
+import DoctorRegister from './app/pages/DoctorRegister';
 
 export default function Router() {
   return (
     <NativeRouter>
       <AuthGuard>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/login/patient" element={<PatientLogin />} />
+          <Route path="/register/patient" element={<PatientRegister />} />
+          <Route path="/login/doctor" element={<DoctorLogin />} />
+          <Route path="/register/doctor" element={<DoctorRegister />} />
           <Route path="/" element={<HomeLayout />}>
             <Route index element={<Home />} />
             <Route path="appointments" element={<EmptyAppointments />} />

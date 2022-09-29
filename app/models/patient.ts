@@ -1,4 +1,4 @@
-import { BloodType } from "../types/blood-type";
+import { BloodType } from '../types/blood-type';
 
 export interface Patient {
   id: string;

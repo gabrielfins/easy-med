@@ -4,12 +4,12 @@ import { StatusBar } from 'expo-status-bar';
 import { colors } from '../styles/colors';
 import { Link, useNavigate } from 'react-router-native';
 import { AuthService } from '../services/auth-service';
+import { useAuth } from '../hooks/use-auth';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AppText from '../components/AppText';
 import ProfileLink from '../components/ProfileLink';
 import PageContainer from '../components/PageContainer';
 import ProfileButton from '../components/ProfileButton';
-import { useAuth } from '../hooks/use-auth';
 
 export default function Profile() {
   const authService = useMemo(() => new AuthService(), []);
@@ -19,7 +19,7 @@ export default function Profile() {
 
   const logout = async () => {
     await authService.logout();
-    navigate('/login');
+    navigate('/login/patient');
   };
 
   return (
@@ -31,7 +31,7 @@ export default function Profile() {
             <View style={styles.avatar}>
               <MaterialIcons name="account-outline" color={colors.primary} size={36} />
             </View>
-            <Link style={styles.avatarEdit} underlayColor="#EAEAEA" to="/profile">
+            <Link style={styles.avatarEdit} underlayColor="#EAEAEA" to="/settings/personal-info">
               <MaterialIcons name="pencil" size={18} color="#6E6E6E" />
             </Link>
           </View>

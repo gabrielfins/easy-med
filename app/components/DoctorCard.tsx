@@ -1,29 +1,24 @@
 import { StyleSheet, View } from 'react-native';
 import { Link, LinkProps } from 'react-router-native';
 import { colors } from '../styles/colors';
-import AppText from './AppText';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import AppText from './AppText';
 
-interface EventLinkProps extends LinkProps {
-  icon: keyof typeof MaterialIcons.glyphMap;
-  description: string;
+interface DoctorCardProps extends LinkProps {
   title: string;
-  info: string;
+  description: string;
 }
 
-export default function EventLink({icon, description, title, info, ...props}: EventLinkProps) {
+export default function DoctorCard({ title, description, ...props }: DoctorCardProps) {
   return (
     <Link style={styles.eventLink} underlayColor="#EAEAEA" {...props}>
       <>
         <View style={styles.iconContainer}>
-          <MaterialIcons name={icon} size={40} color={colors.primary} />
+          <MaterialIcons name="doctor" size={40} color={colors.primary} />
         </View>
         <View style={styles.textContainer}>
-          <View style={{flex: 1}}>
-            <AppText size={12} style={{color: '#6E6E6E'}}>{description}</AppText>
-            <AppText>{title}</AppText>
-          </View>
-          <AppText size={12} style={{color: '#6E6E6E'}}>{info}</AppText>
+          <AppText size={18}>{title}</AppText>
+          <AppText style={{color: '#6E6E6E'}}>{description}</AppText>
         </View>
         <View style={styles.arrow}>
           <MaterialIcons name="chevron-right" size={28} />
@@ -33,7 +28,7 @@ export default function EventLink({icon, description, title, info, ...props}: Ev
   );
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create( {
   eventLink: {
     display: 'flex',
     flexDirection: 'row',
@@ -48,13 +43,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 70,
     height: 70,
-    borderRadius: 5,
+    borderRadius: 35,
     backgroundColor: colors.secondary
   },
   textContainer: {
     display: 'flex',
     flex: 1,
-    marginHorizontal: 10
+    marginHorizontal: 18,
+    justifyContent: 'center'
   },
   arrow: {
     display: 'flex',

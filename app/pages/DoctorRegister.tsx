@@ -1,63 +1,102 @@
 import { useState, useMemo } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { colors } from '../styles/colors';
 import { AuthService } from '../services/auth-service';
+import { Doctor } from '../models/doctor';
+import { DoctorService } from '../services/doctor-service';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AppText from '../components/AppText';
 import Button from '../components/Button';
-import { useNavigate } from 'react-router-native';
-import { PatientService } from '../services/patient-serivce';
-import { Patient } from '../models/patient';
 
-export default function Register() {
+export default function DoctorRegister() {
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');
   const [birthday, setBirthday] = useState('');
+  const [crm, setCrm] = useState('');
+  const [specialty, setSpecialty] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [hiddenPassword, setHiddenPassword] = useState(true);
 
   const authService = useMemo(() => new AuthService(), []);
-  const patientService = useMemo(() => new PatientService(), []);
-
-  const navigate = useNavigate();
+  const doctorService = useMemo(() => new DoctorService(), []);
 
   const register = async () => {
     try {
-      const user = await authService.createPatient(email, password);
+      const user = await authService.createUser(email, password);
 
-      const patient: Patient = {
+      const doctor: Doctor = {
         id: user.user.uid,
         name,
         cpf,
         birthday,
+        crm,
+        specialty,
         email
       };
 
-      await patientService.update(user.user.uid, patient);
-      navigate('/login');
+      await doctorService.update(user.user.uid, doctor);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const isInvalid = (): boolean => {
+    return !name || !cpf || !birthday || !crm  || !specialty || !email || !password;
+  };
+
   return (
-    <View style={styles.login}>
+    <ScrollView style={styles.login}>
       <AppText style={styles.title} size={32} weight="bold">Easy Med</AppText>
       <View style={styles.avatarContainer}>
         <View style={styles.avatar}>
-          <MaterialIcons name="account-outline" size={44} color="#969696" />
+          <MaterialIcons name="doctor" size={44} color="#969696" />
         </View>
-        <AppText style={styles.information}>Crie sua conta.</AppText>
+        <AppText style={styles.information}>Criar conta de Médico</AppText>
       </View>
       <View style={styles.loginForm}>
         <TextInput
+          value={name}
+          onChangeText={setName}
+          mode="outlined"
+          label="Nome"
+          textContentType="name"
+        />
+        <TextInput
+          value={cpf}
+          onChangeText={setCpf}
+          style={styles.formFieldMarginTop}
+          mode="outlined"
+          label="CPF"
+        />
+        <TextInput
+          value={birthday}
+          onChangeText={setBirthday}
+          style={styles.formFieldMarginTop}
+          mode="outlined"
+          label="Data de nascimento"
+        />
+        <TextInput
+          value={crm}
+          onChangeText={setCrm}
+          style={styles.formFieldMarginTop}
+          mode="outlined"
+          label="CRM"
+        />
+        <TextInput
+          value={specialty}
+          onChangeText={setSpecialty}
+          style={styles.formFieldMarginTop}
+          mode="outlined"
+          label="Especialidade"
+        />
+        <TextInput
           value={email}
           onChangeText={setEmail}
+          style={styles.formFieldMarginTop}
           mode="outlined"
           label="Email"
-          left={<TextInput.Icon icon="account-outline" color="#9C9C9C" />}
         />
         <TextInput
           value={password}
@@ -66,16 +105,15 @@ export default function Register() {
           mode="outlined"
           label="Senha"
           secureTextEntry={hiddenPassword}
-          left={<TextInput.Icon icon="lock-outline" color="#9C9C9C" />}
           right={<TextInput.Icon icon={hiddenPassword ? 'eye' : 'eye-off'} color="#9C9C9C" onPress={() => setHiddenPassword(c => !c)} />}
         />
       </View>
       <View style={styles.actionsContainer}>
-        <Button stretch onPress={register}>Cadastre-se</Button>
+        <Button stretch onPress={register} disabled={isInvalid()}>Cadastrar-se</Button>
         <AppText style={styles.actionText}>ou</AppText>
-        <Button link to="/login" stretch>Faça login</Button>
+        <Button link to="/login/doctor" stretch>Faça login</Button>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -131,7 +169,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
     justifyContent: 'flex-end',
-    paddingBottom: 4
+    paddingVertical: 32,
+    marginBottom: 32
   },
   actionText: {
     marginVertical: 12,

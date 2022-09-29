@@ -59,7 +59,7 @@ export default function Home() {
         <View style={styles.header}>
           <StatusBar backgroundColor={colors.tertiary} />
           <View style={styles.titleContainer}>
-            <AppText size={24} weight="bold">Olá, Gabriel</AppText>
+            <AppText size={24} weight="bold">Olá, {patient?.name}</AppText>
             <Link style={styles.avatarLink} to="/profile" underlayColor={colors.secondary}>
               <MaterialIcons name="account-outline" size={28} color="white" />
             </Link>
