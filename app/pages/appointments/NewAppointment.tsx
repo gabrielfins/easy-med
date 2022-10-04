@@ -33,7 +33,7 @@ export default function NewAppointment() {
     <PageContainer title="Novo Agendamento" returnTo="/appointments">
       <View style={styles.searchContent}>
         <MaterialIcons name="magnify" size={28} color="#ADADAD" />
-        <TextInput style={styles.searchInput} placeholder="Procure um médico ou especialidade" onChangeText={filter} />
+        <TextInput style={styles.searchInput} placeholder="Busque um médico ou especialidade" onChangeText={filter} />
       </View>
       <View style={styles.homeGroup}>
         {Object.entries(filteredDoctors).map(([key, value], index) => (

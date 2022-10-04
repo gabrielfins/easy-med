@@ -6,7 +6,6 @@ import { Doctor } from '../../models/doctor';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AppText from '../../components/AppText';
 import PageContainer from '../../components/PageContainer';
-import DoctorCard from '../../components/DoctorCard';
 
 export default function SelectAppointment() {
   const [doctors, setDoctors] = useState<Record<string, Doctor>>({});
@@ -21,7 +20,6 @@ export default function SelectAppointment() {
   return (
     <PageContainer title="Nova Consulta" returnTo="/appointments">
       <View style={styles.}>
-        <MaterialIcons name="magnify" size={28} color="#ADADAD" />
         {/*Especialidade como titulo*/}<AppText></AppText>
       </View>
       <View style={styles.homeGroup}>
@@ -41,10 +39,10 @@ export default function SelectAppointment() {
 }
 
 const styles = StyleSheet.create({
-  searchContent: {
+  specialitytitle: {
     display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
     height: 50,
     paddingLeft: 16,
     paddingRight: 16,

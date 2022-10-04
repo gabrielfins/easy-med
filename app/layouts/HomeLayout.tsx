@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import { Outlet } from 'react-router-native';
 import { useKeyboard } from '../hooks/use-keyboard';
-import NavBar from '../components/NavBar';
+import Navbar from '../components/Navbar';
 
 export default function HomeLayout() {
   const { isKeyboardVisible } = useKeyboard();
@@ -9,7 +9,7 @@ export default function HomeLayout() {
   return (
     <View style={styles.homeLayout}>
       <Outlet />
-      {isKeyboardVisible ? null : <NavBar />}
+      {isKeyboardVisible ? null : <Navbar />}
     </View>
   );
 }
