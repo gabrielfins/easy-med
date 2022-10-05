@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { TextInput } from 'react-native-paper';
 import { Link, useNavigate } from 'react-router-native';
 import { colors } from '../styles/colors';
 import { AuthService } from '../services/auth-service';
@@ -9,6 +8,8 @@ import { DoctorService } from '../services/doctor-service';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AppText from '../components/AppText';
 import Button from '../components/Button';
+import Input from '../components/Input';
+import IconButton from '../components/IconButton';
 
 export default function DoctorLogin() {
   const [email, setEmail] = useState('');
@@ -43,26 +44,24 @@ export default function DoctorLogin() {
         <AppText style={styles.information}>Login de Médico</AppText>
       </View>
       <View style={styles.loginForm}>
-        <TextInput
+        <Input
           value={email}
           onChangeText={setEmail}
-          mode="outlined"
           label="Email"
-          left={<TextInput.Icon icon="account-outline" color="#9C9C9C" />}
+          preffix={<IconButton icon="account-outline" />}
         />
-        <TextInput
+        <Input
           value={passoword}
           onChangeText={setPassword}
           style={styles.formFieldMarginTop}
-          mode="outlined"
           label="Senha"
           secureTextEntry={hiddenPassword}
-          left={<TextInput.Icon icon="lock-outline" color="#9C9C9C" />}
-          right={<TextInput.Icon icon={hiddenPassword ? 'eye' : 'eye-off'} color="#9C9C9C" onPress={() => setHiddenPassword(c => !c)} />}
+          preffix={<IconButton icon="lock-outline" />}
+          suffix={<IconButton icon={hiddenPassword ? 'eye' : 'eye-off'} onPress={() => setHiddenPassword(c => !c)} />}
         />
-        <Link style={[styles.formFieldMarginTop, styles.forgottenPassword]} underlayColor="#e2e2e2" to="/">
+        {/* <Link style={[styles.formFieldMarginTop, styles.forgottenPassword]} underlayColor="#e2e2e2" to="/">
           <AppText style={styles.forgottenPasswordText}>Esqueceu a senha?</AppText>
-        </Link>
+        </Link> */}
       </View>
       <View style={styles.actionsContainer}>
         <Button stretch onPress={login}>Login</Button>

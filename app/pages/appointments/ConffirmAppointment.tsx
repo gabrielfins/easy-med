@@ -7,7 +7,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AppText from '../../components/AppText';
 import PageContainer from '../../components/PageContainer';
 
-export default function SelectAppointment() {
+export default function ConffirmAppointment() {
   const [doctors, setDoctors] = useState<Record<string, Doctor>>({});
   const doctorService = useMemo(() => new DoctorService(), []);
 

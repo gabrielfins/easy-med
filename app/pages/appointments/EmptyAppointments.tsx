@@ -4,18 +4,23 @@ import Button from '../../components/Button';
 import PageContainer from '../../components/PageContainer';
 import EmptyStateIcon from '../../components/EmptyStateIcon';
 import calendar from '../../../assets/images/calendar-dynamic-gradient.png';
+import { useAuth } from '../../hooks/use-auth';
 
 export default function EmptyAppointments() {
+  const { patient, doctor } = useAuth();
+
   return (
     <PageContainer title="Agendamentos">
       <View style={styles.view}>
         <EmptyStateIcon icon={calendar} />
-        <AppText size={28} weight="bold">Sem Agendamentos</AppText>
-        <AppText>Você não possui nenhum agendamento marcado.</AppText>
+        <AppText size={28} weight="bold">Sem {patient ? 'Agendamentos' : doctor ? 'Atendimentos' : ''}</AppText>
+        <AppText>Você não possui nenhum {patient ? 'agendamento' : doctor ? 'atendimento' : ''} marcado.</AppText>
       </View>
-      <View style={styles.agendamento}>
-        <Button type="tonal" link to="new">Faça um Agendamento</Button>
-      </View>
+      {patient ? (
+        <View style={styles.agendamento}>
+          <Button type="tonal" link to="new">Faça um Agendamento</Button>
+        </View>
+      ) : null}
     </PageContainer>
   );
 }

@@ -1,55 +1,78 @@
 import { useEffect, useMemo, useState } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Link } from 'react-router-native';
 import { StatusBar } from 'expo-status-bar';
 import { onValue } from 'firebase/database';
 import { AppointmentService } from '../services/appointment-service';
 import { Appointment } from '../models/appointment';
 import { colors } from '../styles/colors';
-import { formatDate } from '../helpers/format-date';
+import { formatDateTime } from '../helpers/format-date';
 import { useAuth } from '../hooks/use-auth';
 import { Medicine } from '../models/medicine';
 import { MedicineService } from '../services/medicine-service';
+import { DoctorService } from '../services/doctor-service';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AppText from '../components/AppText';
 import ShortcutButton from '../components/ShortcutButton';
 import EventLink from '../components/EventLink';
 import PageContainer from '../components/PageContainer';
+import EmptyStateIcon from '../components/EmptyStateIcon';
+import calendar from '../../assets/images/calendar-dynamic-gradient.png';
 
 export default function Home() {
-  const { patient } = useAuth();
+  const { patient, doctor } = useAuth();
 
-  const [appointments, setAppointments] = useState<Record<string, Appointment> | null>(null);
-  const [medicines, setMedicines] = useState<Record<string, Medicine> | null>(null);
+  const [appointments, setAppointments] = useState<Record<string, Appointment> | null | undefined>();
+  const [medicines, setMedicines] = useState<Record<string, Medicine> | null | undefined>();
   
   const appointmentService = useMemo(() => new AppointmentService(), []);
   const medicineService = useMemo(() => new MedicineService(), []);
 
   useEffect(() => {
-    const unsubAppointments = onValue(appointmentService.watch(patient?.id || ''), (snapshot) => {
-      setAppointments(snapshot.val());
-    });
+    let unsubAppointments: () => void;
+    let unsubMedicines: () => void;
 
-    const unsubMedicines = onValue(medicineService.watch(patient?.id || ''), (snapshot) => {
-      setMedicines(snapshot.val());
-    });
+    if (patient) {
+      unsubAppointments = onValue(appointmentService.watchLastFromPatient(patient.id), (snapshot) => {
+        setAppointments(snapshot.val());
+      });
+  
+      unsubMedicines = onValue(medicineService.watchLast(patient.id), (snapshot) => {
+        setMedicines(snapshot.val());
+      });
+    }
+
+    if (doctor) {
+      unsubAppointments = onValue(appointmentService.watchLastFromDoctor(doctor.id), (snapshot) => {
+        setAppointments(snapshot.val());
+      });
+    }
 
     return () => {
-      unsubAppointments();
-      unsubMedicines();
+      unsubAppointments && unsubAppointments();
+      unsubMedicines && unsubMedicines();
     };
-  }, []);
+  }, [patient, doctor]);
+
+  const doctorService = useMemo(() =>  new DoctorService(), []);
 
   const pushAppointment = () => {
     if (!patient?.id) return;
-    appointmentService.create({
-      date: new Date().toISOString(),
-      doctorId: 'medico',
-      location: '',
-      patientId: patient.id,
-      isDone: false,
-      price: 200,
-      type: 'presential'
+
+    doctorService.get('7eQXp9vZStafKZsTR7eL82q3f9I3').then((doctor) => {
+      if (!doctor) return;
+      appointmentService.create({
+        date: new Date().toISOString(),
+        doctorId: doctor.id,
+        doctorName: doctor.name,
+        doctorSpecialty: doctor.specialty,
+        location: '',
+        patientId: patient.id,
+        patientName: patient.name,
+        isDone: false,
+        price: 200,
+        type: 'online'
+      });
     });
   };
 
@@ -59,30 +82,34 @@ export default function Home() {
         <View style={styles.header}>
           <StatusBar backgroundColor={colors.tertiary} />
           <View style={styles.titleContainer}>
-            <AppText size={24} weight="bold">Olá, {patient?.name}</AppText>
+            <AppText size={20} weight="bold">Olá, {doctor ? doctor.gender === 'm' ? 'Dr.' : 'Dra.' : ''} {patient ? patient.name : doctor ? doctor.name : ''}</AppText>
             <Link style={styles.avatarLink} to="/profile" underlayColor={colors.secondary}>
               <MaterialIcons name="account-outline" size={28} color="white" />
             </Link>
           </View>
-          <View style={styles.searchContainer}>
+          {/* <View style={styles.searchContainer}>
             <AppText>O que você precisa?</AppText>
             <View style={styles.searchContent}>
               <MaterialIcons name="magnify" size={28} color="#ADADAD" />
               <TextInput style={styles.searchInput} placeholder="Especialidade, médico, etc..." />
             </View>
-          </View>
+          </View> */}
         </View>
         <View style={styles.homeGroup}>
-          <AppText>Acesso rápido</AppText>
-          <View style={styles.shortcuts}>
-            <ShortcutButton onPress={pushAppointment} icon="inbox-full" to="/">Receitas</ShortcutButton>
-            <View style={styles.separator} />
-            <ShortcutButton icon="chart-line" to="/">Exames</ShortcutButton>
-            <View style={styles.separator} />
-            <ShortcutButton icon="pill" to="/medicines">Remédios</ShortcutButton>
-          </View>
+          {patient ? (
+            <>
+              <AppText>Acesso rápido</AppText>
+              <View style={styles.shortcuts}>
+                <ShortcutButton onPress={pushAppointment} icon="inbox-full" to="/">Receitas</ShortcutButton>
+                <View style={styles.separator} />
+                <ShortcutButton icon="chart-line" to="/">Exames</ShortcutButton>
+                <View style={styles.separator} />
+                <ShortcutButton icon="pill" to="/medicines">Remédios</ShortcutButton>
+              </View>
+            </>  
+          ) : null}
         </View>
-        {appointments ? (
+        {patient && appointments ? (
           <View style={styles.homeGroup}>
             <AppText>Próximos agendamentos</AppText>
             <View style={styles.homeList}>
@@ -90,10 +117,29 @@ export default function Home() {
                 <View key={key}>
                   <EventLink
                     icon="clock-outline"
-                    description="Neurologista"
-                    title={value.doctorId}
-                    info={formatDate(value.date)}
-                    to="/"
+                    description={value.doctorSpecialty}
+                    title={value.doctorName}
+                    info={formatDateTime(value.date)}
+                    to={`/appointment/${key}`}
+                  />
+                  {index < Object.entries(appointments).length - 1 ? <View style={styles.vSeparator} /> : null}
+                </View>
+              ))}
+            </View>
+          </View>
+        ) : null}
+        {doctor && appointments ? (
+          <View style={styles.homeGroup}>
+            <AppText>Próximos agendamentos</AppText>
+            <View style={styles.homeList}>
+              {Object.entries(appointments).map(([key, value], index) => (
+                <View key={key}>
+                  <EventLink
+                    icon="clock-outline"
+                    description="Paciente"
+                    title={value.patientName}
+                    info={formatDateTime(value.date)}
+                    to={`/appointment/${key}`}
                   />
                   {index < Object.entries(appointments).length - 1 ? <View style={styles.vSeparator} /> : null}
                 </View>
@@ -118,6 +164,18 @@ export default function Home() {
                 </View>
               ))}
             </View>
+          </View>
+        ) : null}
+        {patient && appointments === null && medicines === null ? (
+          <View style={styles.emptyState}>
+            <EmptyStateIcon icon={calendar} />
+            <AppText>Seus agendamentos e medicamentos aparecerão aqui</AppText>
+          </View>
+        ) : null}
+        {doctor && appointments === null && medicines === null ? (
+          <View style={styles.emptyState}>
+            <EmptyStateIcon icon={calendar} />
+            <AppText>Seus próximos atendimentos aparecerão aqui</AppText>
           </View>
         ) : null}
       </View>
@@ -189,5 +247,10 @@ const styles = StyleSheet.create({
   },
   vSeparator: {
     height: 8
+  },
+  emptyState: {
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });

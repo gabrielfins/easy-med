@@ -5,6 +5,7 @@ import { auth } from '../services/firebase-service';
 import { PatientService } from '../services/patient-serivce';
 import { onValue } from 'firebase/database';
 import { Doctor } from '../models/doctor';
+import { DoctorService } from '../services/doctor-service';
 
 interface AuthContextType {
   user: User | null | undefined;
@@ -27,6 +28,7 @@ export default function AuthContextProvider({ children }: AuthContextProviderPro
   const [doctor, setDoctor] = useState<Doctor | null | undefined>();
 
   const patientService = useMemo(() => new PatientService(), []);
+  const doctorService = useMemo(() => new DoctorService(), []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -36,6 +38,10 @@ export default function AuthContextProvider({ children }: AuthContextProviderPro
 
       onValue(patientService.watch(user.uid), (snapshot) => {
         setPatient(snapshot.val());
+      });
+
+      onValue(doctorService.watch(user.uid), (snapshot) => {
+        setDoctor(snapshot.val());
       });
     });
 

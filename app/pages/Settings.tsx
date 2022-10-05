@@ -1,14 +1,17 @@
 import { View, StyleSheet } from 'react-native';
 import ProfileLink from '../components/ProfileLink';
 import PageContainer from '../components/PageContainer';
+import { useAuth } from '../hooks/use-auth';
 
 export default function Settings() {
+  const { patient, doctor } = useAuth();
+
   return (
     <PageContainer title="Configurações" returnTo="/profile">
       <View style={styles.blocks}>
-        <ProfileLink to="personal-info" title="Informações pessoais" icon="account-outline" />
-        <ProfileLink to="" title="Senha e segurança" icon="lock-outline" />
-        {/* <ProfileLink to="" title="Notificações" icon="bell-outline" />
+        <ProfileLink to={`personal-info/${patient ? 'patient' : doctor ? 'doctor' : ''}`} title="Informações pessoais" icon="account-outline" />
+        {/* <ProfileLink to="" title="Senha e segurança" icon="lock-outline" />
+        <ProfileLink to="" title="Notificações" icon="bell-outline" />
         <ProfileLink to="" title="Permissões" icon="key-outline" />
         <ProfileLink to="" title="Acessibilidade" icon="human" />
         <ProfileLink to="" title="Tema" description="Claro" icon="lightbulb-on-outline" />

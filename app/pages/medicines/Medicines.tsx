@@ -13,9 +13,10 @@ import Empty from '../../components/Empty';
 
 export default function Medicines() {
   const { patient } = useAuth();
-  const medicineService = useMemo(() => new MedicineService(), []);
   const [medicines, setMedicines] = useState<Record<string, Medicine> | null>();
-
+  
+  const medicineService = useMemo(() => new MedicineService(), []);
+  
   useEffect(() => {
     const unsubscribe = onValue(medicineService.watch(patient?.id || ''), (snapshot) => {
       setMedicines(snapshot.val());

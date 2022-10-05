@@ -1,13 +1,14 @@
 import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 import { useNavigate } from 'react-router-native';
 import { colors } from '../styles/colors';
+import { Icon } from '../types/icon';
 import AppText from './AppText';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 interface DefaultButtonProps extends TouchableOpacityProps {
   type?: 'flat' | 'tonal';
   size?: 'regular' | 'large';
-  icon?: keyof typeof MaterialIcons.glyphMap;
+  icon?: Icon;
   error?: true;
   stretch?: true;
   children: string;

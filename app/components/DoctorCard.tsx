@@ -7,9 +7,10 @@ import AppText from './AppText';
 interface DoctorCardProps extends LinkProps {
   title: string;
   description: string;
+  info: string;
 }
 
-export default function DoctorCard({ title, description, ...props }: DoctorCardProps) {
+export default function DoctorCard({ title, description, info, ...props }: DoctorCardProps) {
   return (
     <Link style={styles.eventLink} underlayColor="#EAEAEA" {...props}>
       <>
@@ -19,6 +20,7 @@ export default function DoctorCard({ title, description, ...props }: DoctorCardP
         <View style={styles.textContainer}>
           <AppText size={18}>{title}</AppText>
           <AppText style={{color: '#6E6E6E'}}>{description}</AppText>
+          <AppText size={12} style={{marginTop: 4}}>{info}</AppText>
         </View>
         <View style={styles.arrow}>
           <MaterialIcons name="chevron-right" size={28} />

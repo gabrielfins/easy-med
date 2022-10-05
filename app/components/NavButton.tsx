@@ -2,12 +2,13 @@ import { ReactNode } from 'react';
 import { StyleSheet } from 'react-native';
 import { Link, LinkProps, useLocation } from 'react-router-native';
 import { colors } from '../styles/colors';
+import { Icon } from '../types/icon';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AppText from './AppText';
 
 interface NavButtonProps extends LinkProps {
-  icon: keyof typeof MaterialIcons.glyphMap;
-  activeIcon: keyof typeof MaterialIcons.glyphMap;
+  icon: Icon;
+  activeIcon: Icon;
   children: string;
 }
 

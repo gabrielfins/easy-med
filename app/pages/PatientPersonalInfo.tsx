@@ -9,7 +9,7 @@ import Button from '../components/Button';
 import Input from '../components/Input';
 import PageContainer from '../components/PageContainer';
 
-export default function PersonalInfo() {
+export default function PatientPersonalInfo() {
   const { patient } = useAuth();
   
   const [info, setInfo] = useState<Patient>({

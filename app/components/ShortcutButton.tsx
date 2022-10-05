@@ -1,12 +1,13 @@
 import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 import { colors } from '../styles/colors';
 import { useNavigate } from 'react-router-native';
+import { Icon } from '../types/icon';
 import AppText from './AppText';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 interface ShortcutButtonProps extends TouchableOpacityProps {
   children: string;
-  icon: keyof typeof MaterialIcons.glyphMap;
+  icon: Icon;
   to: string;
 }
 

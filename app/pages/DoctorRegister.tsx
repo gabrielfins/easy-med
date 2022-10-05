@@ -1,23 +1,28 @@
 import { useState, useMemo } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { TextInput } from 'react-native-paper';
 import { colors } from '../styles/colors';
 import { AuthService } from '../services/auth-service';
 import { Doctor } from '../models/doctor';
 import { DoctorService } from '../services/doctor-service';
+import IconButton from '../components/IconButton';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AppText from '../components/AppText';
 import Button from '../components/Button';
+import Input from '../components/Input';
 
 export default function DoctorRegister() {
   const [name, setName] = useState('');
   const [cpf, setCpf] = useState('');
+  const [gender, setGender] = useState('');
   const [birthday, setBirthday] = useState('');
   const [crm, setCrm] = useState('');
   const [specialty, setSpecialty] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [consultType, setConsultType] = useState('');
   const [hiddenPassword, setHiddenPassword] = useState(true);
+  const [presentialConsultValue, setPresentialConsultValue] = useState('');
+  const [onlineConsultValue, setOnlineConsultValue] = useState('');
 
   const authService = useMemo(() => new AuthService(), []);
   const doctorService = useMemo(() => new DoctorService(), []);
@@ -29,11 +34,15 @@ export default function DoctorRegister() {
       const doctor: Doctor = {
         id: user.user.uid,
         name,
+        gender: gender as any,
         cpf,
         birthday,
         crm,
         specialty,
-        email
+        email,
+        consultType: consultType as any,
+        presentialConsultValue: presentialConsultValue,
+        onlineConsultValue: onlineConsultValue
       };
 
       await doctorService.update(user.user.uid, doctor);
@@ -56,56 +65,73 @@ export default function DoctorRegister() {
         <AppText style={styles.information}>Criar conta de Médico</AppText>
       </View>
       <View style={styles.loginForm}>
-        <TextInput
+        <Input
           value={name}
           onChangeText={setName}
-          mode="outlined"
           label="Nome"
           textContentType="name"
         />
-        <TextInput
+        <Input
+          value={gender}
+          onChangeText={setGender}
+          label="Gênero"
+          textContentType="name"
+        />
+        <Input
           value={cpf}
           onChangeText={setCpf}
           style={styles.formFieldMarginTop}
-          mode="outlined"
           label="CPF"
         />
-        <TextInput
+        <Input
           value={birthday}
           onChangeText={setBirthday}
           style={styles.formFieldMarginTop}
-          mode="outlined"
           label="Data de nascimento"
         />
-        <TextInput
+        <Input
           value={crm}
           onChangeText={setCrm}
           style={styles.formFieldMarginTop}
-          mode="outlined"
           label="CRM"
         />
-        <TextInput
+        <Input
           value={specialty}
           onChangeText={setSpecialty}
           style={styles.formFieldMarginTop}
-          mode="outlined"
           label="Especialidade"
         />
-        <TextInput
+        <Input
+          value={consultType}
+          onChangeText={setConsultType}
+          style={styles.formFieldMarginTop}
+          label="Tipo de consulta"
+        />
+        <Input
+          value={presentialConsultValue}
+          onChangeText={setPresentialConsultValue}
+          style={styles.formFieldMarginTop}
+          label="Valor da consulta presencial"
+        />
+        <Input
+          value={onlineConsultValue}
+          onChangeText={setOnlineConsultValue}
+          style={styles.formFieldMarginTop}
+          label="Valor da consulta online"
+        />
+        <Input
           value={email}
           onChangeText={setEmail}
           style={styles.formFieldMarginTop}
-          mode="outlined"
           label="Email"
         />
-        <TextInput
+        <Input
           value={password}
           onChangeText={setPassword}
           style={styles.formFieldMarginTop}
-          mode="outlined"
           label="Senha"
           secureTextEntry={hiddenPassword}
-          right={<TextInput.Icon icon={hiddenPassword ? 'eye' : 'eye-off'} color="#9C9C9C" onPress={() => setHiddenPassword(c => !c)} />}
+          suffix={<IconButton icon={hiddenPassword ? 'eye' : 'eye-off'} onPress={() => setHiddenPassword(c => !c)} />}
         />
       </View>
       <View style={styles.actionsContainer}>

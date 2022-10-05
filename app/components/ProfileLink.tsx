@@ -1,13 +1,14 @@
 import { StyleSheet, View } from 'react-native';
 import { Link, LinkProps } from 'react-router-native';
 import { colors } from '../styles/colors';
+import { Icon } from '../types/icon';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AppText from './AppText';
 
 interface ProfileLinkProps extends LinkProps {
   title: string;
   description?: string;
-  icon?: keyof typeof MaterialIcons.glyphMap;
+  icon?: Icon;
 }
 
 export default function ProfileLink({title, description, icon, ...props}: ProfileLinkProps) {

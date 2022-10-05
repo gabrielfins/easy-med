@@ -1,4 +1,4 @@
-import { equalTo, get, orderByChild, push, Query, query, ref, remove, set } from 'firebase/database';
+import { equalTo, get, limitToLast, orderByChild, push, Query, query, ref, remove, set } from 'firebase/database';
 import { Medicine } from '../models/medicine';
 import { database } from './firebase-service';
 
@@ -22,5 +22,9 @@ export class MedicineService {
 
   watch(patientId: string): Query {
     return query(ref(database, 'medicines'), orderByChild('patientId'), equalTo(patientId));
+  }
+
+  watchLast(patientId: string): Query {
+    return query(ref(database, 'medicines'), orderByChild('patientId'), equalTo(patientId), limitToLast(3));
   }
 }

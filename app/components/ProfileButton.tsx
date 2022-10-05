@@ -1,12 +1,13 @@
 import { StyleSheet, TouchableHighlight, TouchableHighlightProps, View } from 'react-native';
 import { colors } from '../styles/colors';
+import { Icon } from '../types/icon';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AppText from './AppText';
 
 interface ProfileButtonProps extends TouchableHighlightProps {
   title: string;
   description?: string;
-  icon?: keyof typeof MaterialIcons.glyphMap;
+  icon?: Icon;
 }
 
 export default function ProfileButton({title, description, icon, ...props}: ProfileButtonProps) {

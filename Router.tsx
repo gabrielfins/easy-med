@@ -6,7 +6,6 @@ import History from './app/pages/History';
 import Notifications from './app/pages/Notifications';
 import Settings from './app/pages/Settings';
 import Help from './app/pages/Help';
-import EmptyAppointments from './app/pages/appointments/EmptyAppointments';
 import PatientLogin from './app/pages/PatientLogin';
 import PatientRegister from './app/pages/PatientRegister';
 import NewAppointment from './app/pages/appointments/NewAppointment';
@@ -16,9 +15,12 @@ import Medicines from './app/pages/medicines/Medicines';
 import NewMedicine from './app/pages/medicines/NewMedicine';
 import EditMedicine from './app/pages/medicines/EditMedicine';
 import Empty from './app/components/Empty';
-import PersonalInfo from './app/pages/PersonalInfo';
+import PatientPersonalInfo from './app/pages/PatientPersonalInfo';
 import DoctorLogin from './app/pages/DoctorLogin';
 import DoctorRegister from './app/pages/DoctorRegister';
+import DoctorPersonalInfo from './app/pages/DoctorPersonalInfo';
+import Appointments from './app/pages/appointments/Appointments';
+import ViewAppointment from './app/pages/appointments/ViewAppointment';
 
 export default function Router() {
   return (
@@ -31,15 +33,17 @@ export default function Router() {
           <Route path="/register/doctor" element={<DoctorRegister />} />
           <Route path="/" element={<HomeLayout />}>
             <Route index element={<Home />} />
-            <Route path="appointments" element={<EmptyAppointments />} />
+            <Route path="appointments" element={<Appointments />} />
             <Route path="appointments/new" element={<NewAppointment/>}/>
             <Route path="appointments/new/specialties" element={<Specialties/>}/>
+            <Route path="appointment/:id" element={<ViewAppointment />} />
             <Route path="results" element={<Home />} />
             <Route path="profile" element={<Profile />} />
             <Route path="history" element={<History />} />
             <Route path="notifications" element={<Notifications />} />
             <Route path="settings" element={<Settings />} />
-            <Route path="settings/personal-info" element={<PersonalInfo />} />
+            <Route path="settings/personal-info/patient" element={<PatientPersonalInfo />} />
+            <Route path="settings/personal-info/doctor" element={<DoctorPersonalInfo />} />
             <Route path="help" element={<Help />} />
             <Route path="medicines" element={<Medicines />} />
             <Route path="medicines/new" element={<NewMedicine />} />

@@ -15,11 +15,15 @@ export default function Profile() {
   const authService = useMemo(() => new AuthService(), []);
   const navigate = useNavigate();
 
-  const { patient } = useAuth();
+  const { patient, doctor } = useAuth();
 
   const logout = async () => {
     await authService.logout();
-    navigate('/login/patient');
+    if (patient) {
+      navigate('/login/patient');
+    } else {
+      navigate('/login/doctor');
+    }
   };
 
   return (
@@ -31,18 +35,20 @@ export default function Profile() {
             <View style={styles.avatar}>
               <MaterialIcons name="account-outline" color={colors.primary} size={36} />
             </View>
-            <Link style={styles.avatarEdit} underlayColor="#EAEAEA" to="/settings/personal-info">
+            <Link style={styles.avatarEdit} underlayColor="#EAEAEA" to={`/settings/personal-info/${patient ? 'patient' : doctor ? 'doctor' : ''}`}>
               <MaterialIcons name="pencil" size={18} color="#6E6E6E" />
             </Link>
           </View>
           <View style={styles.name}>
-            <AppText size={18} weight="bold">{patient?.name}</AppText>
-            <AppText style={styles.underName}>Paciente</AppText>
+            <AppText size={18} weight="bold">{patient? patient.name : doctor ? doctor.name : ''}</AppText>
+            <AppText style={styles.underName}>{patient ? 'Paciente' : doctor ? 'Médico' : ''}</AppText>
           </View>
         </View>
       </View>
       <View style={styles.blocks}>
-        <ProfileLink to="/medicines" title="Medicamentos" description="Lembretes de medicação" icon="pill" />
+        {patient ? (
+          <ProfileLink to="/medicines" title="Medicamentos" description="Lembretes de medicação" icon="pill" />
+        ) : null}
         <ProfileLink to="/notifications" title="Notificações" description="Central de notificações" icon="bell-outline" />
         <ProfileLink to="/history" title="Histórico" description="Consultas realizadas" icon="folder-outline" />
         <ProfileLink to="/settings" title="Configurações" description="Privacidade, segurança e mais" icon="cog-outline" />

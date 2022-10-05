@@ -38,7 +38,17 @@ export default function NewAppointment() {
       <View style={styles.homeGroup}>
         {Object.entries(filteredDoctors).map(([key, value], index) => (
           <View key={key}>
-            <DoctorCard title={value.name} description={value.specialty} to={`confirm/${key}`} />
+            {/*
+              a parte de informação tá uma bagunça.
+              esse código ta aí pra formatar se o médico atende presencial e online e os valores
+              dos seus respectivos métodos de agendamento.
+            */}
+            <DoctorCard
+              title={value.name}
+              description={value.specialty}
+              info={`${value.consultType ? value.consultType : ''}${value.onlineConsultValue ? ` • R$ ${Number(value.onlineConsultValue).toFixed(2)}` : ''}${value.onlineConsultValue && value.presentialConsultValue ? ' -' : value.onlineConsultValue && !value.presentialConsultValue ? '' : ' •'}${value.presentialConsultValue ? ` R$ ${Number(value.presentialConsultValue).toFixed(2)}` : ''}`}
+              to={`confirm/${key}`}
+            />
             {index < Object.entries(filteredDoctors).length ? <View style={styles.vSeparator} /> : null}
           </View>
         ))}

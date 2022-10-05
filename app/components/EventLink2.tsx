@@ -1,11 +1,12 @@
 import { Link, LinkProps } from 'react-router-native';
 import { colors } from '../styles/colors';
+import { StyleSheet, View } from 'react-native';
+import { Icon } from '../types/icon';
 import AppText from './AppText';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { StyleSheet, View } from 'react-native';
 
 interface EventLink2Props extends LinkProps {
-  icon: keyof typeof MaterialIcons.glyphMap;
+  icon: Icon;
   title: string;
 }
 

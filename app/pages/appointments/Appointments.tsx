@@ -1,137 +1,98 @@
-import { View, StyleSheet, Image } from 'react-native';
-import AppText from '../../components/AppText';
+import { useState, useMemo, useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { useAuth } from '../../hooks/use-auth';
+import { Appointment } from '../../models/appointment';
+import { AppointmentService } from '../../services/appointment-service';
+import { onValue } from 'firebase/database';
+import { formatDateTime } from '../../helpers/format-date';
 import Button from '../../components/Button';
-import calenderImage from '../../assets/images/calender-dynamic-gradient.png';
 import PageContainer from '../../components/PageContainer';
 import EventLink from '../../components/EventLink';
+import Empty from '../../components/Empty';
+import EmptyAppointments from './EmptyAppointments';
 
 export default function Appointments() {
+  const { patient, doctor } = useAuth();
+  const [appointments, setAppointments] = useState<Record<string, Appointment> | null>();
+
+  const appointmentService = useMemo(() => new AppointmentService(), []);
+
+  useEffect(() => {
+    let unsubscribe: () => void;
+
+    if (patient) {
+      unsubscribe = onValue(appointmentService.watchFromPatient(patient.id), (snapshot) => {
+        setAppointments(snapshot.val());
+      });
+    }
+
+    if (doctor) {
+      unsubscribe = onValue(appointmentService.watchFromDoctor(doctor.id), (snapshot) => {
+        setAppointments(snapshot.val());
+      });
+    }
+
+    return () => unsubscribe && unsubscribe();
+  }, []);
+
+  if (appointments === undefined) {
+    return <Empty />;
+  }
+
+  if (appointments === null) {
+    return <EmptyAppointments />;
+  }
+
   return (
-    <PageContainer title="Agendamentos">
-      <View style={styles.homeList}>
-        <EventLink
-          icon="clock-outline"
-          description="Neurologista"
-          title="Dr. Luiz Gomes"
-          info="25/04/2022 • 17h30"
-          to="/"
-        />
-        <View style={styles.vSeparator} />
-        <EventLink
-          icon="clock-outline"
-          description="Ortopedista"
-          title="Dr. Roberto Alvez"
-          info="04/05/2022 • 14h00"
-          to="/"
-        />
-        <EventLink
-          icon="clock-outline"
-          description="Psiquiatra"
-          title="Dra. Luiza Pereira"
-          info="07/05/2022 • 09h00"
-          to="/"
-        />
-        <EventLink
-          icon="clock-outline"
-          description="Otorrinolaringologista"
-          title="Dra. Ana Clara da Silva"
-          info="25/04/2022 • 16h30"
-          to="/"
-        />
-      </View>
-      <View style={styles.agendamentocontainer}>
-        <Button type="tonal" link to="/" style={styles.buttonNew}>Faça um Agendamento</Button>
-      </View>
-    </PageContainer>
+    <View style={styles.container}>
+      <PageContainer title={patient ? 'Agendamentos' : doctor ? 'Atendimentos' : ''}>
+        <View style={styles.group}>
+          {patient && appointments ? Object.entries(appointments).map(([key, value], index) => (
+            <View key={key}>
+              <EventLink
+                icon="clock-outline"
+                description={value.doctorSpecialty}
+                info={formatDateTime(value.date)}
+                title={value.doctorName}
+                to={`/appointment/${key}`}
+              />
+              {index < Object.entries(appointments).length - 1 ? <View style={styles.vSeparator} /> : null}
+            </View>
+          )) : null}
+          {doctor && appointments ? Object.entries(appointments).map(([key, value], index) => (
+            <View key={key}>
+              <EventLink
+                icon="clock-outline"
+                description="Paciente"
+                info={formatDateTime(value.date)}
+                title={value.patientName}
+                to={`/appointment/${key}`}
+              />
+              {index < Object.entries(appointments).length - 1 ? <View style={styles.vSeparator} /> : null}
+            </View>
+          )) : null}
+        </View>
+      </PageContainer>
+      {patient ? (
+        <View style={styles.buttonContainer}>
+          <Button type="tonal" stretch icon="plus" link to="/appointments/new">Novo Agendamento</Button>
+        </View>
+      ) : null}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  view: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 50,
+  container: {
+    flex: 1
   },
-  folder: {
-    flex: 1,
-    width: 250,
-    resizeMode: 'contain',
-    paddingBottom: 70,
+  vSeparator: {
+    height: 8
   },
-  text1: {
-    fontFamily: 'OpenSans',
-    fontSize: 26,
-    fontWeight: '900',
-    paddingBottom: 10,
+  group: {
+    padding: 12
   },
-  text2:{
-    fontFamily: 'OpenSans',
-    fontSize: 13,
-    paddingBottom: 5,
-  },
-  text3: {
-    fontFamily: 'OpenSans',
-    fontSize: 14,
-    fontWeight: 'bold',
-    backgroundColor: '#D1E2FF',
-    padding: 10,
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderRadius: 3,
-  },
-  agendamento: {
-    color: '#3C84FB',
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: 'auto',
-    marginTop: 25,
-  },
-  agendamentocontainer: {
-    display: flex,
-    flexdirection: row,
-    justifycontent: flex-end,
-    alignitems: flex-end,
-    padding: 0,
-    paddingLeft:20, 
-    paddingRight:20,
-    paddingBottom: 0,
-    gap: 10,
-
-    width: 428,
-    height: 361,
-
-
-    /* Inside auto layout */
-
-    flex: none,
-    order: 2,
-    alignself: stretch,
-    flexgrow: 1,
-  },
-
-  buttonNew: {
-    /* Auto layout */
-
-  display: flex,
-  flexDirection: row,
-  justifyContent: center,
-  alignitems: center,
-  padding: 0,
-  paddingLeft: 28, 
-  paddingRight: 0, 
-  paddingBottom: 20,
-  gap: 8,
-
-  width: 139,
-  height: 65,
-
-  background: #D1E2FF,
-  borderRadius: 15,
-
-  /* Inside auto layout */
-
-  flex: none,
-  order: 0,
-  flexGrow: 0,
+  buttonContainer: {
+    padding: 12
   }
 });

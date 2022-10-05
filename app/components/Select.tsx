@@ -4,23 +4,26 @@ import { colors } from '../styles/colors';
 import AppText from './AppText';
 import Input, { InputProps } from './Input';
 
-interface SelectProps extends InputProps {
+interface SelectProps extends InputProps { 
   options: Array<{value: any, text: string}>;
-  selectionChanged: (text: string) => void;
+  selectionChanged?: (text: string) => void;
 }
 
 export default function Select({ label, options, selectionChanged, ...props }: SelectProps) {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [value, setValue] = useState(props.value);
+  const [value, setValue] = useState(props.value ? props.value : '');
 
   const changeValue = (value: string) => {
     setValue(value);
     setShowDropdown(false);
+    if (selectionChanged) {
+      selectionChanged(value);
+    }
   };
   
   return (
     <View style={styles.select}>
-      <Input label={label} value={value} showSoftInputOnFocus={false} onFocus={() => setShowDropdown(true)} onChangeText={selectionChanged} />
+      <Input label={label} value={value} showSoftInputOnFocus={false} onFocus={() => setShowDropdown(true)} />
       {showDropdown ? (
         <ScrollView style={styles.dropdown}>
           {options.map((option, index) => (
@@ -36,23 +39,24 @@ export default function Select({ label, options, selectionChanged, ...props }: S
 
 const styles = StyleSheet.create({
   select: {
-    position: 'relative'
+    position: 'relative',
+    zIndex: 100
   },
   dropdown: {
     position: 'absolute',
     top: '100%',
     width: '100%',
-    maxHeight: 150,
     paddingVertical: 5,
     backgroundColor: '#FFFFFF',
     borderColor: '#C8C8C8',
     borderWidth: 1,
-    borderRadius: 5,
-    zIndex: 100
+    borderRadius: 5
   },
   option: {
     height: 30,
     paddingHorizontal: 8,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: '#FFFFFF',
+    zIndex: 10
   }
 });

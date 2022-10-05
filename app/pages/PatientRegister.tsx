@@ -8,6 +8,8 @@ import { Patient } from '../models/patient';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AppText from '../components/AppText';
 import Button from '../components/Button';
+import Input from '../components/Input';
+import IconButton from '../components/IconButton';
 
 export default function PatientRegister() {
   const [name, setName] = useState('');
@@ -52,42 +54,37 @@ export default function PatientRegister() {
         <AppText style={styles.information}>Criar conta de Paciente</AppText>
       </View>
       <View style={styles.loginForm}>
-        <TextInput
+        <Input
           value={name}
           onChangeText={setName}
-          mode="outlined"
           label="Nome"
           textContentType="name"
         />
-        <TextInput
+        <Input
           value={cpf}
           onChangeText={setCpf}
           style={styles.formFieldMarginTop}
-          mode="outlined"
           label="CPF"
         />
-        <TextInput
+        <Input
           value={birthday}
           onChangeText={setBirthday}
           style={styles.formFieldMarginTop}
-          mode="outlined"
           label="Data de nascimento"
         />
-        <TextInput
+        <Input
           value={email}
           onChangeText={setEmail}
           style={styles.formFieldMarginTop}
-          mode="outlined"
           label="Email"
         />
-        <TextInput
+        <Input
           value={password}
           onChangeText={setPassword}
           style={styles.formFieldMarginTop}
-          mode="outlined"
           label="Senha"
           secureTextEntry={hiddenPassword}
-          right={<TextInput.Icon icon={hiddenPassword ? 'eye' : 'eye-off'} color="#9C9C9C" onPress={() => setHiddenPassword(c => !c)} />}
+          suffix={<IconButton icon={hiddenPassword ? 'eye' : 'eye-off'} onPress={() => setHiddenPassword(c => !c)} />}
         />
       </View>
       <View style={styles.actionsContainer}>
