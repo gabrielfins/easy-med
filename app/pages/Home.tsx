@@ -56,26 +56,6 @@ export default function Home() {
 
   const doctorService = useMemo(() =>  new DoctorService(), []);
 
-  const pushAppointment = () => {
-    if (!patient?.id) return;
-
-    doctorService.get('7eQXp9vZStafKZsTR7eL82q3f9I3').then((doctor) => {
-      if (!doctor) return;
-      appointmentService.create({
-        date: new Date().toISOString(),
-        doctorId: doctor.id,
-        doctorName: doctor.name,
-        doctorSpecialty: doctor.specialty,
-        location: '',
-        patientId: patient.id,
-        patientName: patient.name,
-        isDone: false,
-        price: 200,
-        type: 'online'
-      });
-    });
-  };
-
   return (
     <PageContainer>
       <View style={styles.home}>
@@ -100,7 +80,7 @@ export default function Home() {
             <>
               <AppText>Acesso rápido</AppText>
               <View style={styles.shortcuts}>
-                <ShortcutButton onPress={pushAppointment} icon="inbox-full" to="/">Receitas</ShortcutButton>
+                <ShortcutButton icon="inbox-full" to="/">Receitas</ShortcutButton>
                 <View style={styles.separator} />
                 <ShortcutButton icon="chart-line" to="/">Exames</ShortcutButton>
                 <View style={styles.separator} />

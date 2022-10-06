@@ -4,7 +4,7 @@ export interface Appointment {
   doctorId: string;
   doctorName: string;
   doctorSpecialty: string
-  type: 'presential' | 'online';
+  type: 'Presencial' | 'Online';
   date: string;
   location: string;
   price: number;

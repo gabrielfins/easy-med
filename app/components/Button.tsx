@@ -26,7 +26,7 @@ type ButtonProps = DefaultButtonProps & (
   }
 );
 
-export default function Button({type='flat', size='regular', link, to='', error, icon, children, onPress, stretch, ...props}: ButtonProps) {
+export default function Button({type='flat', size='regular', link, to='', error, icon, children, onPress, stretch, style, ...props}: ButtonProps) {
   const navigate = useNavigate();
 
   return (
@@ -37,7 +37,8 @@ export default function Button({type='flat', size='regular', link, to='', error,
         size === 'large' ? styles.buttonLarge : null,
         stretch ? styles.buttonStretch : null,
         props.disabled ? styles.buttonDisabled : null,
-        error ? styles.buttonError : null
+        error ? styles.buttonError : null,
+        style
       ]}
       activeOpacity={0.7}
       onPress={link ? () => navigate(to) : onPress}

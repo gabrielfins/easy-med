@@ -10,7 +10,7 @@ export interface Doctor {
   availability?: Record<string, string>;
   email: string;
   phoneNumber?: string;
-  consultType: string;
+  consultType: 'Online' | 'Presencial' | 'Presencial e Online' | '';
   presentialConsultValue: string;
   onlineConsultValue: string;
 }

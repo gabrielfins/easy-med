@@ -52,7 +52,7 @@ export default function ViewAppointment() {
             </View>
           </View>
           <View style={styles.appointmentInfo}>
-            <AppText>Consulta <AppText weight="bold">online</AppText></AppText>
+            <AppText>Consulta <AppText weight="bold">{appointment.type.toLowerCase()}</AppText></AppText>
             <AppText>Marcada para dia <AppText weight="bold">{formatDate(appointment.date)}</AppText> às <AppText weight="bold">{formatTime(appointment.date)}</AppText></AppText>
             <AppText>Valor: <AppText weight="bold">R$ {appointment.price.toFixed(2)}</AppText></AppText>
           </View>

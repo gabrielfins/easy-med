@@ -21,6 +21,7 @@ import DoctorRegister from './app/pages/DoctorRegister';
 import DoctorPersonalInfo from './app/pages/DoctorPersonalInfo';
 import Appointments from './app/pages/appointments/Appointments';
 import ViewAppointment from './app/pages/appointments/ViewAppointment';
+import ConfirmAppointment from './app/pages/appointments/ConfirmAppointment';
 
 export default function Router() {
   return (
@@ -35,7 +36,8 @@ export default function Router() {
             <Route index element={<Home />} />
             <Route path="appointments" element={<Appointments />} />
             <Route path="appointments/new" element={<NewAppointment/>}/>
-            <Route path="appointments/new/specialties" element={<Specialties/>}/>
+            <Route path="appointments/new/confirm/:id" element={<ConfirmAppointment/>}/>
+            {/* <Route path="appointments/new/specialties" element={<Specialties/>}/> */}
             <Route path="appointment/:id" element={<ViewAppointment />} />
             <Route path="results" element={<Home />} />
             <Route path="profile" element={<Profile />} />

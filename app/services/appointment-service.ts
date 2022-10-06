@@ -5,7 +5,7 @@ import { Appointment } from '../models/appointment';
 export class AppointmentService {
   private readonly basePath: string = 'appointments';
 
-  async create(appointment: Appointment): Promise<void> {
+  async add(appointment: Appointment): Promise<void> {
     await push(ref(database, this.basePath), appointment);
   }
 

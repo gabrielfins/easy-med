@@ -2,14 +2,35 @@ import { TouchableHighlight, TouchableHighlightProps, StyleSheet } from 'react-n
 import { Icon } from '../types/icon';
 import { colors } from '../styles/colors';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useNavigate } from 'react-router-native';
 
-interface IconButtonProps extends TouchableHighlightProps {
+interface DefaultIconButtonProps extends TouchableHighlightProps {
   icon: Icon;
+  underlayColor?: string;
 }
 
-export default function IconButton({ icon, ...props }: IconButtonProps) {
+type IconButtonProps = DefaultIconButtonProps & (
+  {
+    link: true;
+    to: string;
+    onPress?: never;
+  } | {
+    link?: never;
+    to?: string;
+    onPress: () => {};
+  }
+);
+
+export default function IconButton({ icon, underlayColor, link, to='', onPress, ...props }: IconButtonProps) {
+  const navigate = useNavigate();
+
   return (
-    <TouchableHighlight style={styles.iconButton} underlayColor={colors.tertiary} {...props}>
+    <TouchableHighlight
+      style={styles.iconButton}
+      underlayColor={underlayColor ? underlayColor : colors.tertiary}
+      onPress={link ? () => navigate(to) : onPress}
+      {...props}
+    >
       <MaterialIcons name={icon} size={24} color="#5f5f5f" />
     </TouchableHighlight>
   );
