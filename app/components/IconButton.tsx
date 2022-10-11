@@ -17,7 +17,7 @@ type IconButtonProps = DefaultIconButtonProps & (
   } | {
     link?: never;
     to?: string;
-    onPress: () => {};
+    onPress?: Function;
   }
 );
 

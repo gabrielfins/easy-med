@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Link, useNavigate } from 'react-router-native';
+import { useNavigate } from 'react-router-native';
 import { colors } from '../styles/colors';
 import { AuthService } from '../services/auth-service';
 import { useAuth } from '../hooks/use-auth';

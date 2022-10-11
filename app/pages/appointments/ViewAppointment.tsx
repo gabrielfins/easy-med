@@ -6,17 +6,24 @@ import { AppointmentService } from '../../services/appointment-service';
 import { Appointment } from '../../models/appointment';
 import { formatDate, formatTime } from '../../helpers/format-date';
 import { useAuth } from '../../hooks/use-auth';
+import { useCall } from '../../hooks/use-call';
+import { CallService } from '../../services/call-service';
+import { Call } from '../../models/call';
 import PageContainer from '../../components/PageContainer';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AppText from '../../components/AppText';
 import Empty from '../../components/Empty';
 
 export default function ViewAppointment() {
+  const { startWebcam, startCall } = useCall();
+
   const { patient, doctor } = useAuth();
 
   const [appointment, setAppointment] = useState<Appointment>();
   
   const appointmentService = useMemo(() => new AppointmentService(), []);
+
+  const callService = useMemo(() => new CallService(), []);
 
   const params = useParams();
   const navigate = useNavigate();
@@ -32,6 +39,23 @@ export default function ViewAppointment() {
     if (!params || !params.id) return;
     await appointmentService.delete(params.id);
     navigate('/appointments');
+  };
+
+  const start = async () => {
+    await startWebcam();
+    const id = await startCall();
+    
+    const call: Call = {
+      createdBy: patient ? 'patient' : 'doctor',
+      callCode: id || '',
+      doctorId: appointment?.doctorId || '',
+      patientId: appointment?.patientId || '',
+      startedAt: new Date().toISOString(),
+      hasEnded: false,
+      hasAnswered: false
+    };
+
+    await callService.update(id || '', call);
   };
 
   if (appointment === undefined) {
@@ -63,7 +87,7 @@ export default function ViewAppointment() {
           <AppText style={{color: colors.error}} weight="bold">Cancelar {patient ? 'Agendamento' : doctor ? 'Atendimento' : ''}</AppText>
         </TouchableOpacity>
         <View style={styles.hSeparator} />
-        <TouchableOpacity style={styles.callButton} activeOpacity={0.5}>
+        <TouchableOpacity style={styles.callButton} activeOpacity={0.5} onPress={start}>
           <MaterialIcons name="phone" size={24} color={colors.primary} />
         </TouchableOpacity>
       </View>

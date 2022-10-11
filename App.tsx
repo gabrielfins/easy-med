@@ -4,6 +4,7 @@ import { useFonts } from 'expo-font';
 import { Provider as PaperProvider, MD3LightTheme as defaultTheme } from 'react-native-paper';
 import Router from './Router';
 import AuthContextProvider from './app/contexts/AuthContext';
+import CallContextProvider from './app/contexts/CallContext';
 
 const theme = {
   ...defaultTheme,
@@ -28,12 +29,14 @@ export default function App() {
 
   return (
     <AuthContextProvider>
-      <PaperProvider theme={theme}>
-        <View style={styles.appContainer}>
-          <StatusBar backgroundColor="white" />
-          <Router />
-        </View>
-      </PaperProvider>
+      <CallContextProvider>
+        <PaperProvider theme={theme}>
+          <View style={styles.appContainer}>
+            <StatusBar backgroundColor="white" />
+            <Router />
+          </View>
+        </PaperProvider>
+      </CallContextProvider>
     </AuthContextProvider>
   );
 }

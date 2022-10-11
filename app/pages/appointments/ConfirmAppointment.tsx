@@ -30,10 +30,10 @@ export default function ConfirmAppointment() {
   const doctorService = useMemo(() => new DoctorService(), []);
   const appointmentService = useMemo(() => new AppointmentService(), []);
 
-  useEffect(() => {   
+  useEffect(() => {
     doctorService.get(params.id || '')
-    .then(setDoctor)
-    .catch(console.log);
+      .then(setDoctor)
+      .catch(console.log);
   }, []);
 
   useEffect(() => {

@@ -22,38 +22,45 @@ import DoctorPersonalInfo from './app/pages/DoctorPersonalInfo';
 import Appointments from './app/pages/appointments/Appointments';
 import ViewAppointment from './app/pages/appointments/ViewAppointment';
 import ConfirmAppointment from './app/pages/appointments/ConfirmAppointment';
+import CallStarted from './app/pages/CallStarted';
+import CallGuard from './app/guards/CallGuard';
+import CallPage from './app/pages/CallPage';
 
 export default function Router() {
   return (
     <NativeRouter>
       <AuthGuard>
-        <Routes>
-          <Route path="/login/patient" element={<PatientLogin />} />
-          <Route path="/register/patient" element={<PatientRegister />} />
-          <Route path="/login/doctor" element={<DoctorLogin />} />
-          <Route path="/register/doctor" element={<DoctorRegister />} />
-          <Route path="/" element={<HomeLayout />}>
-            <Route index element={<Home />} />
-            <Route path="appointments" element={<Appointments />} />
-            <Route path="appointments/new" element={<NewAppointment/>}/>
-            <Route path="appointments/new/confirm/:id" element={<ConfirmAppointment/>}/>
-            {/* <Route path="appointments/new/specialties" element={<Specialties/>}/> */}
-            <Route path="appointment/:id" element={<ViewAppointment />} />
-            <Route path="results" element={<Home />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="history" element={<History />} />
-            <Route path="notifications" element={<Notifications />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="settings/personal-info/patient" element={<PatientPersonalInfo />} />
-            <Route path="settings/personal-info/doctor" element={<DoctorPersonalInfo />} />
-            <Route path="help" element={<Help />} />
-            <Route path="medicines" element={<Medicines />} />
-            <Route path="medicines/new" element={<NewMedicine />} />
-            <Route path="medicine/edit/:id" element={<EditMedicine />} />
-          </Route>
-          <Route path="/empty" element={<Empty />} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
+        <CallGuard>
+          <Routes>
+            <Route path="/login/patient" element={<PatientLogin />} />
+            <Route path="/register/patient" element={<PatientRegister />} />
+            <Route path="/login/doctor" element={<DoctorLogin />} />
+            <Route path="/register/doctor" element={<DoctorRegister />} />
+            <Route path="/" element={<HomeLayout />}>
+              <Route index element={<Home />} />
+              <Route path="appointments" element={<Appointments />} />
+              <Route path="appointments/new" element={<NewAppointment/>}/>
+              <Route path="appointments/new/confirm/:id" element={<ConfirmAppointment/>}/>
+              {/* <Route path="appointments/new/specialties" element={<Specialties/>}/> */}
+              <Route path="appointment/:id" element={<ViewAppointment />} />
+              <Route path="results" element={<Home />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="history" element={<History />} />
+              <Route path="notifications" element={<Notifications />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="settings/personal-info/patient" element={<PatientPersonalInfo />} />
+              <Route path="settings/personal-info/doctor" element={<DoctorPersonalInfo />} />
+              <Route path="help" element={<Help />} />
+              <Route path="medicines" element={<Medicines />} />
+              <Route path="medicines/new" element={<NewMedicine />} />
+              <Route path="medicine/edit/:id" element={<EditMedicine />} />
+            </Route>
+            <Route path="/call-started/:id" element={<CallStarted />} />
+            <Route path="/call/:id" element={<CallPage />} />
+            <Route path="/empty" element={<Empty />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </CallGuard>
       </AuthGuard>
     </NativeRouter>
   );
