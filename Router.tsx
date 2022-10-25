@@ -39,7 +39,7 @@ export default function Router() {
             <Route path="/" element={<HomeLayout />}>
               <Route index element={<Home />} />
               <Route path="appointments" element={<Appointments />} />
-              <Route path="appointments/new" element={<NewAppointment/>}/>
+              <Route path="appointments/new/:focus" element={<NewAppointment/>}/>
               <Route path="appointments/new/confirm/:id" element={<ConfirmAppointment/>}/>
               {/* <Route path="appointments/new/specialties" element={<Specialties/>}/> */}
               <Route path="appointment/:id" element={<ViewAppointment />} />

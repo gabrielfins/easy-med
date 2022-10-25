@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Link } from 'react-router-native';
+import { View, StyleSheet, TouchableHighlight } from 'react-native';
+import { Link, useNavigate } from 'react-router-native';
 import { StatusBar } from 'expo-status-bar';
 import { onValue } from 'firebase/database';
 import { AppointmentService } from '../services/appointment-service';
@@ -10,7 +10,6 @@ import { formatDateTime } from '../helpers/format-date';
 import { useAuth } from '../hooks/use-auth';
 import { Medicine } from '../models/medicine';
 import { MedicineService } from '../services/medicine-service';
-import { DoctorService } from '../services/doctor-service';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AppText from '../components/AppText';
 import ShortcutButton from '../components/ShortcutButton';
@@ -54,7 +53,7 @@ export default function Home() {
     };
   }, [patient, doctor]);
 
-  const doctorService = useMemo(() =>  new DoctorService(), []);
+  const navigate = useNavigate();
 
   return (
     <PageContainer>
@@ -64,27 +63,29 @@ export default function Home() {
           <View style={styles.titleContainer}>
             <AppText size={20} weight="bold">Olá, {doctor ? doctor.gender === 'm' ? 'Dr.' : 'Dra.' : ''} {patient ? patient.name : doctor ? doctor.name : ''}</AppText>
             <Link style={styles.avatarLink} to="/profile" underlayColor={colors.secondary}>
-              <MaterialIcons name="account-outline" size={28} color="white" />
+              <MaterialIcons name="account" size={28} color="white" />
             </Link>
           </View>
-          {/* <View style={styles.searchContainer}>
+          <View style={styles.searchContainer}>
             <AppText>O que você precisa?</AppText>
-            <View style={styles.searchContent}>
-              <MaterialIcons name="magnify" size={28} color="#ADADAD" />
-              <TextInput style={styles.searchInput} placeholder="Especialidade, médico, etc..." />
-            </View>
-          </View> */}
+            <TouchableHighlight style={styles.searchContent} underlayColor="#FFFFFF" onPress={() => navigate('/appointments/new/focus')}>
+              <>
+                <MaterialIcons name="magnify" size={28} color="#ADADAD" />
+                <AppText style={styles.searchInput}>Especialidade, médico, etc...</AppText>
+              </>
+            </TouchableHighlight>
+          </View>
         </View>
         <View style={styles.homeGroup}>
           {patient ? (
             <>
               <AppText>Acesso rápido</AppText>
               <View style={styles.shortcuts}>
-                <ShortcutButton icon="inbox-full" to="/">Receitas</ShortcutButton>
+                <ShortcutButton icon="pill" to="medicines">Remédios</ShortcutButton>
                 <View style={styles.separator} />
-                <ShortcutButton icon="chart-line" to="/">Exames</ShortcutButton>
+                <ShortcutButton icon="inbox-full" to="history">Histórico</ShortcutButton>
                 <View style={styles.separator} />
-                <ShortcutButton icon="pill" to="/medicines">Remédios</ShortcutButton>
+                <ShortcutButton icon="bell" to="notifications">Notificações</ShortcutButton>
               </View>
             </>  
           ) : null}
@@ -206,7 +207,8 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    marginLeft: 8
+    marginLeft: 8,
+    color: '#aaaaaa'
   },
   homeGroup: {
     display: 'flex',

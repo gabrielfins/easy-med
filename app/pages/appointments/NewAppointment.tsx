@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { View, StyleSheet, TextInput } from 'react-native';
 import { onValue } from 'firebase/database';
 import { DoctorService } from '../../services/doctor-service';
@@ -6,11 +6,16 @@ import { Doctor } from '../../models/doctor';
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import PageContainer from '../../components/PageContainer';
 import DoctorCard from '../../components/DoctorCard';
+import { useParams } from 'react-router-native';
 
 export default function NewAppointment() {
   const [doctors, setDoctors] = useState<Record<string, Doctor>>({});
   const [filteredDoctors, setFilteredDoctors] = useState<Record<string, Doctor>>({});
   const doctorService = useMemo(() => new DoctorService(), []);
+
+  const params = useParams();
+
+  const searchInput = useRef<TextInput>(null);
 
   useEffect(() => {
     onValue(doctorService.watchAll(), (snapshot) => {
@@ -18,6 +23,12 @@ export default function NewAppointment() {
       setFilteredDoctors(snapshot.val());
     });
   }, []);
+
+  useEffect(() => {
+    if (params.focus && searchInput.current) {
+      searchInput.current.focus();
+    }
+  }, [params, searchInput]);
 
   const filter = (filter: string) => {
     const doctorsClone = {...doctors};
@@ -33,7 +44,7 @@ export default function NewAppointment() {
     <PageContainer title="Novo Agendamento" returnTo="/appointments">
       <View style={styles.searchContent}>
         <MaterialIcons name="magnify" size={28} color="#ADADAD" />
-        <TextInput style={styles.searchInput} placeholder="Busque um médico ou especialidade" onChangeText={filter} />
+        <TextInput ref={searchInput} style={styles.searchInput} placeholder="Busque um médico ou especialidade" onChangeText={filter} />
       </View>
       <View style={styles.homeGroup}>
         {Object.entries(filteredDoctors).map(([key, value], index) => (

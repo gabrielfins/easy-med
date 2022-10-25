@@ -33,7 +33,7 @@ export default function Profile() {
         <View style={styles.nameBox}>
           <View>
             <View style={styles.avatar}>
-              <MaterialIcons name="account-outline" color={colors.primary} size={36} />
+              <MaterialIcons name="account" color={colors.primary} size={36} />
             </View>
             <Link style={styles.avatarEdit} underlayColor="#EAEAEA" to={`/settings/personal-info/${patient ? 'patient' : doctor ? 'doctor' : ''}`}>
               <MaterialIcons name="pencil" size={18} color="#6E6E6E" />
