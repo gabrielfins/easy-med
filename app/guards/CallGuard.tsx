@@ -9,13 +9,15 @@ interface CallGuardProps {
 }
 
 export default function CallGuard({ children }: CallGuardProps) {
-  const { patient, doctor } = useAuth();
+  const { user, patient, doctor } = useAuth();
 
   const navigate = useNavigate();
 
   const callService = useMemo(() => new CallService(), []);
 
   useEffect(() => {
+    if (!user) return;
+
     const unsubPatient = onValue(callService.watchFromPatient(patient?.id || ''), (snapshot) => {
       if (snapshot.exists()) {
         const [id] = Object.keys(snapshot.val());
