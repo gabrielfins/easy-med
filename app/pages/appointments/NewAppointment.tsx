@@ -25,10 +25,8 @@ export default function NewAppointment() {
   }, []);
 
   useEffect(() => {
-    if (params.focus && searchInput.current) {
-      searchInput.current.focus();
-    }
-  }, [params, searchInput]);
+    searchInput.current?.focus();
+  }, [searchInput]);
 
   const filter = (filter: string) => {
     const doctorsClone = {...doctors};

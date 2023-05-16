@@ -66,15 +66,17 @@ export default function Home() {
               <MaterialIcons name="account" size={28} color="white" />
             </Link>
           </View>
-          <View style={styles.searchContainer}>
-            <AppText>O que você precisa?</AppText>
-            <TouchableHighlight style={styles.searchContent} underlayColor="#FFFFFF" onPress={() => navigate('/appointments/new/focus')}>
-              <>
-                <MaterialIcons name="magnify" size={28} color="#ADADAD" />
-                <AppText style={styles.searchInput}>Especialidade, médico, etc...</AppText>
-              </>
-            </TouchableHighlight>
-          </View>
+          {patient ? (
+            <View style={styles.searchContainer}>
+              <AppText>O que você precisa?</AppText>
+              <TouchableHighlight style={styles.searchContent} underlayColor="#FFFFFF" onPress={() => navigate('/appointments/new')}>
+                <>
+                  <MaterialIcons name="magnify" size={28} color="#ADADAD" />
+                  <AppText style={styles.searchInput}>Especialidade, médico, etc...</AppText>
+                </>
+              </TouchableHighlight>
+            </View>
+          ) : null}
         </View>
         <View style={styles.homeGroup}>
           {patient ? (
